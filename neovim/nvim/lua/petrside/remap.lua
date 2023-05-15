@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 --vim.keymap.set("n", "<leader>pv", "<cmd>NvimTreeToggle<CR>")
---vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -18,8 +18,8 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 -- skip to next error / go back to previous and the center
 -- vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
@@ -36,9 +36,6 @@ vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 --vim.keymap.set("n", "<leader>p", "<cmd>BufferPin<CR>")
 --
 --vim.keymap.set("n", "<leader><Tab>", "<cmd>BufferNext<CR>")
-
--- Toggle the file tree view with <Leader>e
-vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>")
 
 -- telescope find text
 vim.keymap.set("n", "<leader>fs", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")

@@ -79,6 +79,11 @@ _G.packer_plugins = {
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
+  catppuccin = {
+    loaded = true,
+    path = "/home/petrside/.local/share/nvim/site/pack/packer/start/catppuccin",
+    url = "https://github.com/catppuccin/nvim"
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/cmp-buffer",
@@ -104,11 +109,6 @@ _G.packer_plugins = {
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
-  ["coc.nvim"] = {
-    loaded = true,
-    path = "/home/petrside/.local/share/nvim/site/pack/packer/start/coc.nvim",
-    url = "https://github.com/neoclide/coc.nvim"
-  },
   ["copilot.vim"] = {
     loaded = true,
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/copilot.vim",
@@ -123,6 +123,16 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/gruvbox.nvim",
     url = "https://github.com/ellisonleao/gruvbox.nvim"
+  },
+  harpoon = {
+    loaded = true,
+    path = "/home/petrside/.local/share/nvim/site/pack/packer/start/harpoon",
+    url = "https://github.com/ThePrimeagen/harpoon"
+  },
+  ["indent-blankline.nvim"] = {
+    loaded = true,
+    path = "/home/petrside/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
+    url = "https://github.com/lukas-reineke/indent-blankline.nvim"
   },
   ["lsp-zero.nvim"] = {
     loaded = true,
@@ -153,16 +163,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
-  },
-  ["nvim-tetris"] = {
-    loaded = true,
-    path = "/home/petrside/.local/share/nvim/site/pack/packer/start/nvim-tetris",
-    url = "https://github.com/alec-gibson/nvim-tetris"
-  },
-  ["nvim-tree.lua"] = {
-    loaded = true,
-    path = "/home/petrside/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
-    url = "https://github.com/nvim-tree/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
     loaded = true,
