@@ -2,34 +2,37 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Hack Nerd Font Mono Regular 15 
+#font pango:Hack Nerd Font Mono Regular 16
+font pango:monotone, Icons 14
 
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id nitrogen --restore &
-exec --no-startup-id picom &
+#exec --no-startup-id picom -b --config /home/petrside/.config/picom/picom.conf
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh &
 
-# default_border pixel 0 
-# default_floating_border pixel 0 
-# for_window [class="^.*"] border pixel 0
-for_window [class=".*"] title_format "<span font='Fira Code 15'> %title</span>" 
-#for_window [class=".*"] title_format "<span font='Hack Nerd 15'> %title</span>" 
-title_align center
+default_border pixel 1 
+default_floating_border pixel 1 
+for_window [class="^.*"] border pixel 1 
 
-gaps inner 10
-gaps outer 5
+#gaps outer 5
+#gaps inner 10
 
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
 exec_always --no-startup-id xinput set-prop "SYNA3296:00 06CB:CD50 Touchpad" "libinput Tapping Enabled" 1
 exec_always --no-startup-id "setxkbmap -model pc104 -layout us,gr -variant ,, -option grp:alt_shift_toggle"
-#exec --no-startup-id "sh -c 'sleep 1; exec gxkb'"
+exec --no-startup-id "sh -c 'sleep 1; exec gxkb'"
+exec --no-startup-id "sh -c 'sleep 1; exec /usr/bin/blueman-applet &'"
 exec --no-startup-id "sh -c 'sleep 1; exec volctl'"
-exec --no-startup-id "sh -c 'sleep 1; exec /usr/bin/caffeine'" 
+exec --no-startup-id nm-applet
+exec --no-startup-id "sh -c 'sleep 1; exec /usr/bin/caffeine-indicator &'" 
 
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+#exec --no-startup-id "sh -c 'sleep 1; exec /usr/bin/corectrl'"
 
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 
-exec --no-startup-id nm-applet
 #set $refresh_i3status killall -SIGUSR1 i3status
 #bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
 #bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
@@ -41,12 +44,19 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle 
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
+# Media keys
+bindcode 173 exec playerctl previous
+bindcode 172 exec playerctl play-pause
+bindcode 171 exec playerctl next
+
 floating_modifier $mod
 #tiling_drag modifier  
 
 # start a terminal
+bindsym $mod+Return exec --no-startup-id xterm 
 #bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
-bindsym $mod+Return exec --no-startup-id kitty
+#bindsym $mod+Return exec --no-startup-id terminator 
+#bindsym $mod+Return exec --no-startup-id kitty
 
 # kill focused window
 bindsym $mod+q kill
@@ -64,23 +74,21 @@ bindsym $mod+d exec --no-startup-id "rofi -modi drun -drun-match-fields name -sh
 bindcode $mod+60 focus left
 bindcode $mod+61 focus right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+bindsym $mod+h focus left 
+bindsym $mod+l focus right
+bindsym $mod+j focus down 
+bindsym $mod+k focus up 
 
 # move focused window
-#bindsym $mod+Shift+j move left
-#bindsym $mod+Shift+k move down
-#bindsym $mod+Shift+l move up
-#bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
 
-bindsym $mod+h move left
-bindsym $mod+j move down
-bindsym $mod+k move up
-bindsym $mod+l move right
-
+#bindsym $mod+h move left
+#bindsym $mod+j move down
+#bindsym $mod+k move up
+#bindsym $mod+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -89,10 +97,9 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-# bindsym $mod+h split h
-
+#bindsym $mod+h split h
 # split in vertical orientation
-bindsym $mod+v split v
+#bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -115,10 +122,16 @@ for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
 for_window [class="Image Lounge" instance="nomacs"] floating enable
 for_window [class="Caffeine" instance="caffeine"] floating enable
 for_window [class="Alarm-clock-applet" instance="alarm-clock-applet"] floating enable
+for_window [class="Anki" instance="anki"] floating enable
+for_window [class="Blueman-manager" instance="blueman-manager"] floating enable
+for_window [class="org.gnome.clocks" instance="org.gnome.clocks"] floating enable
 for_window [class="Lxappearance" instance="lxappearance"] floating enable
 for_window [class="Nm-connection-editor" instance="nm-connection-editor"] floating enable
 for_window [class="Kalendar" instance="Kalendar"] floating enable
+for_window [class="Pystopwatch" instance="pystopwatch"] floating enable
+for_window [class="Qalculate-gtk" instance="qalculate-gtk"] floating enable
 for_window [class="Volctl" instance="volctl"] floating enable
+for_window [class="vlc" instance="vlc"] floating enable
 for_window [class="Yad"] floating enable
 
 #focus the child container
@@ -160,6 +173,7 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec --no-startup-id "rofi -show p -modi p:rofi-power-menu -theme Monokai-power -kb-cancel Super_L,Escape -font 'Hack Nerd Font Mono Regular 20'"
+bindsym $mod+Shift+p exec --no-startup-id "/home/petrside/.config/lock.sh"
 #bindsym $mod+Shift+e exec --no-startup-id "rofi -show p -modi p:rofi-power-menu -theme Monokai -width 20 -lines 6 -kb-cancel Super_L,Escape -font 'Hack Nerd Font Mono Regular 15'"
 
 mode "resize" {
@@ -174,8 +188,8 @@ mode "resize" {
         bindsym l resize grow width 10 px or 10 ppt
 
         bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Up resize grow height 10 px or 10 ppt
-        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
 
         bindsym Return mode "default"
@@ -189,31 +203,51 @@ client.focused #282a36 #282a36 #fdf6e3 #1F2D3A
 #client.focused #1F2D3A #1F2D3A #fdf6e3 #1F2D3A
 #client.focused #1F2D3A #1F2D3A #fdf6e3 #1F2D3A
 
+bar {
+    status_command i3status
+}
+
 #bar {
-#        status_command i3status
+#    status_command i3status
+#    colors {
+#        background #282828
+#        statusline #8be9fd
+#        separator #f8f8f2
+#        focused_workspace  #bd93f9  #282828     #f8f8f2
+#        inactive_workspace #44475a  #282828     #f8f8f2
+#        urgent_workspace   #ff5555  #282828     #f8f8f2
+#    }
+#    colors {
+#        background #282a36
+##        statusline #50fa7
+#        separator #f8f8f2
+#        focused_workspace #ff79c6 #282a36 #f8f8f2
+#        inactive_workspace #44475a #282a36 #f8f8f2
+#        urgent_workspace #ff5555 #282a36 #f8f8f2
+#    }
 #}
 
-bar {
-    status_command i3blocks 
-    font pango:Fira Code Regular 15 
-
-    position top
-   # colors {
-   #         background #1F2D3A 
-   #         statusline #1ABC9C
-   #         separator #1ABC9C
-   #         # colorclass       <border> <background> <text>
-   #         focused_workspace  #1ABC9C  #1ABC9C     #1F2D3A
-   #         inactive_workspace #1F2D3A  #1F2D3A     #1ABC9C
-   #         urgent_workspace   #2F343A  #73907A     #FFFFFF
-   # }
-    colors {
-        background #282a36
-        statusline #50fa7b
-        separator #f8f8f2
-        focused_workspace  #bd93f9  #44475a     #f8f8f2
-        inactive_workspace #44475a  #282a36     #f8f8f2
-        urgent_workspace   #ff5555  #282a36     #f8f8f2
-    }
-
-}
+#bar {
+#    status_command i3blocks 
+#    font pango:Fira Code Regular 15 
+#    position bottom 
+#
+#    #colors {
+#    #        background #1F2D3A 
+#    #        statusline #1ABC9C
+#    #        separator #1ABC9C
+#    #        # colorclass       <border> <background> <text>
+#    #        focused_workspace  #1ABC9C  #1ABC9C     #1F2D3A
+#    #        inactive_workspace #1F2D3A  #1F2D3A     #1ABC9C
+#    #        urgent_workspace   #2F343A  #73907A     #FFFFFF
+#    #}
+#    colors {
+#        background #282a36
+#        statusline #50fa7b
+#        separator #f8f8f2
+#        focused_workspace  #bd93f9  #44475a     #f8f8f2
+#        inactive_workspace #44475a  #282a36     #f8f8f2
+#        urgent_workspace   #ff5555  #282a36     #f8f8f2
+#    }
+#
+#}
