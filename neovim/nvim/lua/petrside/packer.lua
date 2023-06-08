@@ -68,11 +68,7 @@ return require('packer').startup(function(use)
         requires = { 'kyazdani42/nvim-web-devicons', opt = true }
     }
 
-    --    use { 'neoclide/coc.nvim', branch = 'release' }
-
     use { "https://github.com/github/copilot.vim" }
-
-    use "lukas-reineke/indent-blankline.nvim"
 
     use "ThePrimeagen/harpoon"
 
