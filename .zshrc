@@ -8,7 +8,7 @@ export PATH="/usr/local/go/bin:/home/petrside/nvim-linux64/bin:/home/petrside/.l
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="gentoo"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -97,14 +97,28 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias weather="curl wttr.in/41.14656977676622,24.914552905332883"
+alias kairos="curl wttr.in/41.14656977676622,24.914552905332883"
 alias vim="nvim"
-alias stopwatch="tclock stopwatch"
-alias ls='ls -shN --color=auto --group-directories-first'
+alias kairosOllandia="curl wttr.in/Eindhoven"
+alias kairosLidoriki="curl wttr.in/Lidoriki"
+alias kairosAlexpoli="curl wttr.in/Alexandroupoli"
+alias ls='ls -N --color=auto --group-directories-first'
+alias music='cvlc --extraintf curses "$(find ~/Music/ -type f -name "*.mp3" -o -name "*.flac" -o -name "*.opus" -o -name "*.ogg" | fzf)"'
+#alias music='cd /home/petrside/Music/Minecraft\ Volume\ Alpha\ \&\ Beta\ \(2011\) ; ls *.flac | fzf |  xargs -I{} vlc "{}" | cd'
+#alias music='cd /home/petrside/Music/Minecraft\ Volume\ Alpha\ \&\ Beta\ \(2011\) ; ls *.flac | fzf |  xargs -r -I{} mpv "{}"'
 #alias ls='ls -shN --color=auto --group-directories-first'
 alias ram='ps axch -o cmd:15,%mem --sort=-%mem | head'
 alias cpu='ps axch -o cmd:15,%cpu --sort=-%cpu | head'
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias mhz='watch -n 1 "cat /proc/cpuinfo | grep MHz"'
-# alias fvim='fzf --cycle --bind 'tab:toggle-up,btab:toggle-down' --print0 | xargs -0 -r -o /usr/bin/nvim'
+alias speed-up-spotify='sudo rm -rf ~/.cache/spotify/Browser/* ~/.cache/spotify/Data/* ~/.cache/spotify/Storage/*'
+#alias stopwatch='python3 ~/stopwatch.py'
+#alias fvim='fzf --cycle --bind 'tab:toggle-up,btab:toggle-down' --print0 | xargs -0 -r -o /usr/bin/nvim'
+
+# bun completions
+[ -s "/home/petrside/.bun/_bun" ] && source "/home/petrside/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
