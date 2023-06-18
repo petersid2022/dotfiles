@@ -150,7 +150,7 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec --no-startup-id "rofi -show p -modi p:rofi-power-menu -theme Monokai-power -kb-cancel Super_L,Escape -font 'Hack Nerd Font Mono Regular 20'"
+bindsym $mod+Shift+e exec --no-startup-id "rofi -show p -modi p:rofi-power-menu -theme Monokai-power -kb-cancel Super_L,Escape"
 bindsym $mod+Shift+p exec --no-startup-id "/home/petrside/.config/lock.sh"
 #bindsym $mod+Shift+e exec --no-startup-id "rofi -show p -modi p:rofi-power-menu -theme Monokai -width 20 -lines 6 -kb-cancel Super_L,Escape -font 'Hack Nerd Font Mono Regular 15'"
 
