@@ -21,13 +21,14 @@ exec_always --no-startup-id "setxkbmap -model pc104 -layout us,gr -variant ,, -o
 #exec --no-startup-id "sh -c 'sleep 1; exec volctl'"
 #exec --no-startup-id "sh -c 'sleep 1; exec /usr/bin/caffeine-indicator &'" 
 exec --no-startup-id gxkb
+exec --no-startup-id albert 
 exec --no-startup-id /usr/bin/blueman-applet &
 exec --no-startup-id volctl
 exec --no-startup-id nm-applet
 exec --no-startup-id /usr/bin/caffeine-indicator & 
 exec --no-startup-id alttab -d 1
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-
+#exec --no-startup-id "sh -c 'sleep 1; exec /usr/bin/corectrl'"
 
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
@@ -51,7 +52,7 @@ bindsym $mod+Return exec --no-startup-id gnome-terminal
 
 bindsym $mod+q kill
 
-bindsym $mod+d exec --no-startup-id "rofi -modi drun -drun-match-fields name -show drun -kb-cancel Super_L+d,Escape,Super_L" 
+#bindsym $mod+d exec --no-startup-id "rofi -modi drun -drun-match-fields name -show drun -kb-cancel Super_L+d,Escape,Super_L" 
 
 # change focus
 bindcode $mod+60 focus left
@@ -110,6 +111,7 @@ for_window [class="Pystopwatch" instance="pystopwatch"] floating enable
 for_window [class="Qalculate-gtk" instance="qalculate-gtk"] floating enable
 for_window [class="Volctl" instance="volctl"] floating enable
 for_window [class="vlc" instance="vlc"] floating enable
+for_window [class="albert" instance="albert"] floating enable
 for_window [class="Yad"] floating enable
 
 #focus the child container
