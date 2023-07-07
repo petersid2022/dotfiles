@@ -1,7 +1,7 @@
 # dotfiles
-All of my dotfiles. Neovim + i3wm + zshrc
+All of my dotfiles. Neovim + i3wm + zshrc + dmenu_power_menu that uses xidlehook
 
-Albert preview:
+[Albert](https://github.com/albertlauncher/albert) preview:
 ![image](https://github.com/petersid2022/dotfiles/assets/49149872/bff8becf-7819-442b-9d0f-447b2fb3f126)
 
 [Alttab](https://github.com/sagb/alttab) preview
