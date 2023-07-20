@@ -1,4 +1,4 @@
-# All my scripts
+# All of my scripts
 
 ## add_license_file
 
@@ -10,7 +10,7 @@ TODO: add more license options and a command line option to choose the license t
 
 ## dmenu_power_menu 
 
-Dmenu power menu that uses [xidlehook](https://github.com/jD91mZM2/xidlehook)
+Dmenu power menu that uses dmenu and systemctl. 
 
 ## How do I lock my screen?
 
@@ -19,4 +19,4 @@ I use this in my [i3 config file](../i3wm/config/config)
 
 ## lock.sh 
 
-Similarly to the xidlehook command above, it locks the screen when executed. It uses i3lock under the hood. 
+Similarly to the [betterlockscreen](https://github.com/betterlockscreen/betterlockscreen) command above, it locks the screen when executed. It uses i3lock under the hood. 
