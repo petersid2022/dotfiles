@@ -71,6 +71,10 @@ return require('packer').startup(function(use)
     use { "https://github.com/github/copilot.vim" }
 
     use "ThePrimeagen/harpoon"
+    use "tpope/vim-fugitive"
+    use "folke/tokyonight.nvim"
+    use "ziglang/zig.vim"
+
 
     if packer_bootstrap then
         require('packer').sync()
