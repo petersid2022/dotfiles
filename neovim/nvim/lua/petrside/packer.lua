@@ -21,19 +21,19 @@ return require('packer').startup(function(use)
         'nvim-telescope/telescope.nvim', tag = '0.1.1',
         -- or                            , branch = '0.1.x',
         requires = { { 'nvim-lua/plenary.nvim' },
-            { "nvim-telescope/telescope-live-grep-args.nvim" }
-        },
-        config = function()
-            require("telescope").load_extension("live_grep_args")
-        end
-    }
+        { "nvim-telescope/telescope-live-grep-args.nvim" }
+    },
+    config = function()
+        require("telescope").load_extension("live_grep_args")
+    end
+}
 
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        run = function()
-            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-            ts_update()
-        end, }
+use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+        local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+        ts_update()
+    end, }
 
     use {
         'VonHeikemen/lsp-zero.nvim',
@@ -63,20 +63,38 @@ return require('packer').startup(function(use)
 
     use 'nvim-tree/nvim-web-devicons'
 
-    use {
-        'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-    }
+    --use {
+        --    'nvim-lualine/lualine.nvim',
+        --    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+        --}
 
-    use { "https://github.com/github/copilot.vim" }
+        use { "https://github.com/github/copilot.vim" }
 
-    use "ThePrimeagen/harpoon"
-    use "tpope/vim-fugitive"
-    use "folke/tokyonight.nvim"
-    use "ziglang/zig.vim"
+        use "ThePrimeagen/harpoon"
+        use "tpope/vim-fugitive"
+        use "folke/tokyonight.nvim"
+        use "ziglang/zig.vim"
 
+        -- installing markdown preview
+        use({
+            "iamcco/markdown-preview.nvim",
+            run = function() vim.fn["mkdp#util#install"]() end,
+        })
+        use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install",
+        setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 
-    if packer_bootstrap then
-        require('packer').sync()
-    end
-end)
+        -- installing markdown preview
+
+        -- installing lsp_lines (https://git.sr.ht/~whynothugo/lsp_lines.nvim)
+        use({
+            "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+            config = function()
+                require("lsp_lines").setup()
+            end,
+        })
+        -- installing lsp_lines (https://git.sr.ht/~whynothugo/lsp_lines.nvim)
+
+        if packer_bootstrap then
+            require('packer').sync()
+        end
+    end)
