@@ -80,10 +80,10 @@ use {
             "iamcco/markdown-preview.nvim",
             run = function() vim.fn["mkdp#util#install"]() end,
         })
-        use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install",
-        setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+        --use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install",
+        --setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 
-        -- installing markdown preview
+        --
 
         -- installing lsp_lines (https://git.sr.ht/~whynothugo/lsp_lines.nvim)
         use({
@@ -92,7 +92,14 @@ use {
                 require("lsp_lines").setup()
             end,
         })
-        -- installing lsp_lines (https://git.sr.ht/~whynothugo/lsp_lines.nvim)
+        --
+
+        -- Installing: https://github.com/MunifTanjim/prettier.nvim#installation
+
+        use('jose-elias-alvarez/null-ls.nvim')
+        use('MunifTanjim/prettier.nvim')
+
+        --
 
         if packer_bootstrap then
             require('packer').sync()
