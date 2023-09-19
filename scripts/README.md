@@ -1,5 +1,12 @@
 # All of my scripts
 
+## help
+Simple but brilliant script that uses cht.sh and fzf to display help for a programming language, according to user input.
+
+## vmrss
+Monitor memory usage of a running daemon, binary. Takes as an arg the PID of the running process. 
+TODO: add autocomplete functionality.
+
 ## add_license_file
 
 I used to include all of the License info in the README.md file but I found that it was too much clutter so I decided to create a separate LICENSE file
