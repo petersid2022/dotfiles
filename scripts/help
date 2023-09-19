@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Function to query cht.sh and display the output
+query_cht() {
+    local language="$1"
+    local query="$2"
+    curl -s "https://cht.sh/$language/$query"
+}
+
+# Function to get user input with fzf
+get_user_input() {
+    local languages=("golang" "cpp" "c" "lua" "typescript" "javascript" "rust" "zig" "nodejs")
+    local selected_language
+    selected_language=$(printf '%s\n' "${languages[@]}" | fzf --prompt="Select a programming language: ")
+    echo "$selected_language"
+}
+
+# Main script
+selected_language=$(get_user_input)
+
+if [ -z "$selected_language" ]; then
+    echo "No language selected. Exiting."
+    exit 1
+fi
+
+read -p "Enter the query: " query
+
+if [ -z "$query" ]; then
+    echo "Query is empty. Exiting."
+    exit 1
+fi
+
+output=$(query_cht "$selected_language" "$query")
+echo -e "Result for \"$query\" in $selected_language:\n$output" | less -R
