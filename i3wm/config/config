@@ -1,41 +1,17 @@
 set $mod Mod4
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
-#font pango:Hack Nerd Font Mono Regular 16
-#font pango:monotone, Icons 14
-font pango:monotone 14
+font pango:Noto Sans 20px
 
-exec --no-startup-id dex --autostart --environment i3
-#exec --no-startup-id nitrogen --restore &
-exec_always --no-startup-id feh --bg-fill /home/petrside/Pictures/blue.jpg 
-
-default_border pixel 1 
-default_floating_border pixel 1 
-for_window [class="^.*"] border pixel 1 
-focus_follows_mouse no
-
-exec --no-startup-id albert
 exec_always --no-startup-id xinput set-prop "SYNA3296:00 06CB:CD50 Touchpad" "libinput Tapping Enabled" 1
 exec_always --no-startup-id "setxkbmap -model pc104 -layout us,gr -variant ,, -option grp:alt_shift_toggle"
-exec --no-startup-id gxkb
-exec --no-startup-id volctl
+
+exec --no-startup-id sh -c "sleep 1 && /usr/local/bin/volumeicon"
 exec --no-startup-id nm-applet
-exec --no-startup-id alttab -d 1
+exec --no-startup-id gxkb
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id xidlehook --not-when-fullscreen --not-when-audio --timer normal 600 'betterlockscreen -l dim' ''
-#exec --no-startup-id xautolock -time 10 -locker "betterlockscreen -l dim" 
-#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-#exec --no-startup-id /usr/bin/blueman-applet &
-#exec --no-startup-id /usr/bin/caffeine-indicator & 
-
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
-
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle 
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+exec --no-startup-id nitrogen --restore &
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id xfce4-screensaver
 
 bindcode 173 exec playerctl previous
 bindcode 172 exec playerctl play-pause
@@ -43,13 +19,13 @@ bindcode 171 exec playerctl next
 
 floating_modifier $mod
 
-bindsym $mod+Return exec --no-startup-id gnome-terminal 
-
+bindsym Control+Shift+Escape exec --no-startup-id xfce4-taskmanager
+bindsym Print exec --no-startup-id xfce4-screenshooter
+bindsym $mod+Return exec --no-startup-id terminator 
+bindsym $mod+d exec --no-startup-id "dmenu_run -fn 'Noto Sans-18'"
+bindsym $mod+t exec --no-startup-id "thunar /home/petrside/7o-eksamhno"
 bindsym $mod+q kill
-
-#bindsym $mod+d exec --no-startup-id "rofi -modi drun name -show drun -kb-cancel Super_L+d,Escape" 
-bindsym $mod+shift+x exec betterlockscreen -l dim
-bindsym $mod+t exec --no-startup-id "thunar /home/petrside/septembrios2023/" 
+bindsym $mod+Tab workspace back_and_forth
 
 # change focus
 bindcode $mod+60 focus left
@@ -91,24 +67,27 @@ bindsym $mod+a focus parent
 
 for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
 for_window [class="Image Lounge" instance="nomacs"] floating enable
-for_window [class="Caffeine" instance="caffeine"] floating enable
+#for_window [class="Caffeine" instance="caffeine"] floating enable
 for_window [class="Alarm-clock-applet" instance="alarm-clock-applet"] floating enable
 for_window [class="Anki" instance="anki"] floating enable
 for_window [class="Blueman-manager" instance="blueman-manager"] floating enable
 for_window [class="org.gnome.clocks" instance="org.gnome.clocks"] floating enable
 for_window [class="Lxappearance" instance="lxappearance"] floating enable
 for_window [class="Nm-connection-editor" instance="nm-connection-editor"] floating enable
-for_window [class="Kalendar" instance="Kalendar"] floating enable
-for_window [class="Pystopwatch" instance="pystopwatch"] floating enable
-for_window [class="Qalculate-gtk" instance="qalculate-gtk"] floating enable
+#for_window [class="Kalendar" instance="Kalendar"] floating enable
+#for_window [class="Pystopwatch" instance="pystopwatch"] floating enable
+#for_window [class="Qalculate-gtk" instance="qalculate-gtk"] floating enable
 for_window [class="Volctl" instance="volctl"] floating enable
+for_window [class="File-roller" instance="file-roller"] floating enable
 for_window [class="Xarchiver" instance="xarchiver"] floating enable
-for_window [class="vlc" instance="vlc"] floating enable
-for_window [class="albert" instance="albert"] floating enable
+#for_window [class="vlc" instance="vlc"] floating enable
+#for_window [class="albert" instance="albert"] floating enable
 for_window [class="Yad"] floating enable
+for_window [class="kizzy" instance="kizzy"] floating enable
+for_window [all] title_window_icon on
+for_window [class=".*"] title_format %class
 
 #focus the child container
-#bindsym $mod+d focus child
 
 set $ws1 "1"
 set $ws2 "2"
@@ -145,17 +124,10 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec --no-startup-id "/home/petrside/.config/dmenu_power_menu.sh" 
-#bindsym $mod+Shift+e exec --no-startup-id "rofi -show p -modi p:rofi-power-menu -kb-cancel Super_L,Escape"
-#bindsym $mod+Shift+p exec --no-startup-id "/home/petrside/.config/lock.sh"
-#bindsym $mod+Shift+e exec --no-startup-id "rofi -show p -modi p:rofi-power-menu -theme Monokai -width 20 -lines 6 -kb-cancel Super_L,Escape -font 'Hack Nerd Font Mono Regular 15'"
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec /home/petrside/.config/i3/power_menu.sh
 
 mode "resize" {
-       # bindsym j resize shrink width 10 px or 10 ppt
-       # bindsym k resize grow height 10 px or 10 ppt
-       # bindsym l resize shrink height 10 px or 10 ppt
-       # bindsym semicolon resize grow width 10 px or 10 ppt
-
         bindsym h resize shrink width 10 px or 10 ppt
         bindsym j resize grow height 10 px or 10 ppt
         bindsym k resize shrink height 10 px or 10 ppt
@@ -172,11 +144,12 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
-# class         border  backgr. text    indicator child_border
-client.focused #282a36 #282a36 #fdf6e3 #1F2D3A
-#client.focused #1F2D3A #1F2D3A #fdf6e3 #1F2D3A
-#client.focused #1F2D3A #1F2D3A #fdf6e3 #1F2D3A
 
 bar {
+    tray_padding 4px
+    bindsym button4 nop
+    bindsym button5 nop
+    bindsym button6 nop
+    bindsym button7 nop
     status_command i3status
 }
