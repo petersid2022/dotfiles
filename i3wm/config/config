@@ -21,7 +21,8 @@ floating_modifier $mod
 
 bindsym Control+Shift+Escape exec --no-startup-id xfce4-taskmanager
 bindsym Print exec --no-startup-id xfce4-screenshooter
-bindsym $mod+Return exec --no-startup-id terminator 
+#bindsym $mod+Return exec --no-startup-id terminator 
+bindsym $mod+Return exec --no-startup-id xfce4-terminal 
 bindsym $mod+d exec --no-startup-id "dmenu_run -fn 'Noto Sans-18'"
 bindsym $mod+t exec --no-startup-id "thunar /home/petrside/7o-eksamhno"
 bindsym $mod+q kill
@@ -76,7 +77,8 @@ for_window [class="Lxappearance" instance="lxappearance"] floating enable
 for_window [class="Nm-connection-editor" instance="nm-connection-editor"] floating enable
 #for_window [class="Kalendar" instance="Kalendar"] floating enable
 #for_window [class="Pystopwatch" instance="pystopwatch"] floating enable
-#for_window [class="Qalculate-gtk" instance="qalculate-gtk"] floating enable
+#for_window [class="qalculate-qt" instance="qalculate-qt"] floating enable
+for_window [class="Galculator" instance="galculator"] floating enable
 for_window [class="Volctl" instance="volctl"] floating enable
 for_window [class="File-roller" instance="file-roller"] floating enable
 for_window [class="Xarchiver" instance="xarchiver"] floating enable
