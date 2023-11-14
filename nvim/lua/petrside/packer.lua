@@ -22,6 +22,8 @@ return require('packer').startup(function(use)
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
 
+    use "nvim-treesitter/nvim-treesitter-context"
+
     use {
         'nvim-treesitter/nvim-treesitter',
         run = function()
@@ -50,6 +52,8 @@ return require('packer').startup(function(use)
     use { "ellisonleao/gruvbox.nvim" }
 
     use "ThePrimeagen/harpoon"
+
+    use "f-person/git-blame.nvim"
 
     if packer_bootstrap then
         require('packer').sync()

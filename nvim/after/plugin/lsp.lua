@@ -3,7 +3,7 @@ local lsp_zero = require('lsp-zero')
 lsp_zero.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
 
-    vim.lsp.set_log_level("off")
+    vim.lsp.set_log_level("debug")
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
@@ -39,26 +39,12 @@ require('mason-lspconfig').setup({
 
 local lspconfig = require("lspconfig")
 
-local on_attach = function(client)
-    require'completion'.on_attach(client)
-end
-
 lspconfig.gopls.setup({
-    on_attach=on_attach,
     cmd = { "gopls" },
-    settings = {
-        gopls = {
-            analyses = {
-                unusedparams = true,
-            },
-            staticcheck = true,
-            gofumpt = true,
-        },
-    },
 })
 
 lspconfig.rust_analyzer.setup({
-    on_attach=on_attach,
+    cmd = { "/home/petrside/.local/bin/rust-analyzer" },
     settings = {
         ["rust-analyzer"] = {
             imports = {
