@@ -1,3 +1,4 @@
+local builtin = require('telescope.builtin')
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
@@ -14,6 +15,9 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 vim.keymap.set("n", "Q", "<nop>")
 
-vim.keymap.set("n", "<leader>fs", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
+vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
 
 vim.keymap.set("x", "<leader>p", [["_dP]])
+
+vim.keymap.set("n", "z", "^")
+vim.keymap.set("n", "m", "$")

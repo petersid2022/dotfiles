@@ -3,7 +3,7 @@ local lsp_zero = require('lsp-zero')
 lsp_zero.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
 
-    vim.lsp.set_log_level("debug")
+    vim.lsp.set_log_level("off")
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
@@ -14,14 +14,20 @@ lsp_zero.on_attach(function(client, bufnr)
     vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-    vim.keymap.set('n', '<space>f', function()
-        vim.lsp.buf.format { async = true }
+    vim.keymap.set({ 'n', 'x' }, '<space>f', function()
+        vim.lsp.buf.format({ async = false, timeout_ms = 10000 })
     end, opts)
 end)
 
+lsp_zero.set_sign_icons({
+    error = '✘',
+    warn = '▲',
+    hint = '⚑',
+    info = '»'
+})
+
 require('mason').setup({})
 require('mason-lspconfig').setup({
-    ensure_installed = { 'tsserver', 'rust_analyzer' },
     handlers = {
         lsp_zero.default_setup,
         lua_ls = function()
@@ -31,8 +37,51 @@ require('mason-lspconfig').setup({
     }
 })
 
+local lspconfig = require("lspconfig")
+
+local on_attach = function(client)
+    require'completion'.on_attach(client)
+end
+
+lspconfig.gopls.setup({
+    on_attach=on_attach,
+    cmd = { "gopls" },
+    settings = {
+        gopls = {
+            analyses = {
+                unusedparams = true,
+            },
+            staticcheck = true,
+            gofumpt = true,
+        },
+    },
+})
+
+lspconfig.rust_analyzer.setup({
+    on_attach=on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            imports = {
+                granularity = {
+                    group = "module",
+                },
+                prefix = "self",
+            },
+            cargo = {
+                buildScripts = {
+                    enable = true,
+                },
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
+})
+
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
+local cmp_action = require('lsp-zero').cmp_action()
 
 cmp.setup({
     preselect = 'item',
@@ -44,15 +93,16 @@ cmp.setup({
         { name = 'nvim_lsp' },
         { name = 'nvim_lua' },
     },
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
     formatting = lsp_zero.cmp_format(),
     mapping = cmp.mapping.preset.insert({
+        ['<Tab>'] = cmp_action.luasnip_supertab(),
         ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
         ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
         ['<C-Space>'] = cmp.mapping.complete(),
     }),
-    window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-    },
 })
