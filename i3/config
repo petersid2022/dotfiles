@@ -2,6 +2,11 @@ set $mod Mod4
 
 font pango:Noto Sans 20px
 
+focus_follows_mouse no
+
+gaps inner 5px
+gaps outer 5px
+
 exec_always --no-startup-id xinput set-prop "SYNA3296:00 06CB:CD50 Touchpad" "libinput Tapping Enabled" 1
 exec_always --no-startup-id "setxkbmap -model pc104 -layout us,gr -variant ,, -option grp:alt_shift_toggle"
 
@@ -12,6 +17,7 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nitrogen --restore &
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id xfce4-screensaver
+#exec --no-startup-id blueman-applet &
 
 bindcode 173 exec playerctl previous
 bindcode 172 exec playerctl play-pause
@@ -21,10 +27,13 @@ floating_modifier $mod
 
 bindsym Control+Shift+Escape exec --no-startup-id xfce4-taskmanager
 bindsym Print exec --no-startup-id xfce4-screenshooter
-#bindsym $mod+Return exec --no-startup-id terminator 
 bindsym $mod+Return exec --no-startup-id xfce4-terminal 
-bindsym $mod+d exec --no-startup-id "dmenu_run -fn 'Noto Sans-18'"
+#bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec --no-startup-id "rofi -modi drun -drun-match-fields name -show drun -kb-cancel Super_L+d,Escape,Super_L"
+#bindsym $mod+d exec --no-startup-id "dmenu_run -fn 'Noto Sans-18'"
 bindsym $mod+t exec --no-startup-id "thunar /home/petrside/7o-eksamhno"
+bindsym $mod+c exec --no-startup-id "chromium"
+bindsym $mod+o exec --no-startup-id "thunar /home/petrside/"
 bindsym $mod+q kill
 bindsym $mod+Tab workspace back_and_forth
 
@@ -69,7 +78,6 @@ bindsym $mod+a focus parent
 for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
 for_window [class="Image Lounge" instance="nomacs"] floating enable
 #for_window [class="Caffeine" instance="caffeine"] floating enable
-for_window [class="Alarm-clock-applet" instance="alarm-clock-applet"] floating enable
 for_window [class="Anki" instance="anki"] floating enable
 for_window [class="Blueman-manager" instance="blueman-manager"] floating enable
 for_window [class="org.gnome.clocks" instance="org.gnome.clocks"] floating enable
@@ -86,7 +94,7 @@ for_window [class="Xarchiver" instance="xarchiver"] floating enable
 #for_window [class="albert" instance="albert"] floating enable
 for_window [class="Yad"] floating enable
 for_window [class="kizzy" instance="kizzy"] floating enable
-for_window [all] title_window_icon on
+#for_window [all] title_window_icon on
 for_window [class=".*"] title_format %class
 
 #focus the child container
@@ -129,7 +137,7 @@ bindsym $mod+Shift+r restart
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 bindsym $mod+Shift+e exec /home/petrside/.config/i3/power_menu.sh
 
-mode "resize" {
+mode "RESIZE" {
         bindsym h resize shrink width 10 px or 10 ppt
         bindsym j resize grow height 10 px or 10 ppt
         bindsym k resize shrink height 10 px or 10 ppt
@@ -145,7 +153,13 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
-bindsym $mod+r mode "resize"
+mode "CAPSLOCK" {
+    bindsym Caps_Lock mode "default"
+}
+
+bindsym Caps_Lock mode "CAPSLOCK"
+
+bindsym $mod+r mode "RESIZE"
 
 bar {
     tray_padding 4px
