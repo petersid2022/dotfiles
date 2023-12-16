@@ -114,6 +114,11 @@ _G.packer_plugins = {
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
+  ["neovim-ayu"] = {
+    loaded = true,
+    path = "/home/petrside/.local/share/nvim/site/pack/packer/start/neovim-ayu",
+    url = "https://github.com/Shatur/neovim-ayu"
+  },
   ["nvim-cmp"] = {
     loaded = true,
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/nvim-cmp",

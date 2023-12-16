@@ -16,6 +16,7 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
+    use "nvim-lua/plenary.nvim"
 
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.4',
@@ -53,8 +54,15 @@ return require('packer').startup(function(use)
     use { "catppuccin/nvim", as = "catppuccin" }
 
     use "ThePrimeagen/harpoon"
+    --use {
+    --    "ThePrimeagen/harpoon",
+    --    branch = "harpoon2",
+    --    requires = { { "nvim-lua/plenary.nvim" } }
+    --}
 
     use "f-person/git-blame.nvim"
+
+    use "Shatur/neovim-ayu"
 
     if packer_bootstrap then
         require('packer').sync()
