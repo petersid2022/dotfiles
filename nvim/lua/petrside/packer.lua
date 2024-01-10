@@ -50,19 +50,25 @@ return require('packer').startup(function(use)
         }
     }
 
-    --use { "ellisonleao/gruvbox.nvim" }
     use { "catppuccin/nvim", as = "catppuccin" }
 
     use "ThePrimeagen/harpoon"
-    --use {
-    --    "ThePrimeagen/harpoon",
-    --    branch = "harpoon2",
-    --    requires = { { "nvim-lua/plenary.nvim" } }
-    --}
 
     use "f-person/git-blame.nvim"
 
+    use "nvim-tree/nvim-web-devicons"
+
+    use {
+        "folke/trouble.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {}
+    }
+
     use "Shatur/neovim-ayu"
+
+    use "folke/zen-mode.nvim"
+
+    use "j-hui/fidget.nvim"
 
     if packer_bootstrap then
         require('packer').sync()

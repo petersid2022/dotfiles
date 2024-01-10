@@ -89,6 +89,11 @@ _G.packer_plugins = {
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
+  ["fidget.nvim"] = {
+    loaded = true,
+    path = "/home/petrside/.local/share/nvim/site/pack/packer/start/fidget.nvim",
+    url = "https://github.com/j-hui/fidget.nvim"
+  },
   ["git-blame.nvim"] = {
     loaded = true,
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/git-blame.nvim",
@@ -139,6 +144,11 @@ _G.packer_plugins = {
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context",
     url = "https://github.com/nvim-treesitter/nvim-treesitter-context"
   },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/home/petrside/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/nvim-tree/nvim-web-devicons"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/packer.nvim",
@@ -153,6 +163,16 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/petrside/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
+  ["trouble.nvim"] = {
+    loaded = true,
+    path = "/home/petrside/.local/share/nvim/site/pack/packer/start/trouble.nvim",
+    url = "https://github.com/folke/trouble.nvim"
+  },
+  ["zen-mode.nvim"] = {
+    loaded = true,
+    path = "/home/petrside/.local/share/nvim/site/pack/packer/start/zen-mode.nvim",
+    url = "https://github.com/folke/zen-mode.nvim"
   }
 }
 
