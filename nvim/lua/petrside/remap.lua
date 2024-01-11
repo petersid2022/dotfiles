@@ -31,3 +31,5 @@ vim.keymap.set("n", "gb", "<cmd>GitBlameToggle<CR>")
 
 vim.keymap.set("n", "<leader>z", "<cmd>ZenMode<CR>")
 vim.keymap.set("n", "<leader>t", "<cmd>TroubleToggle<CR>")
+
+vim.keymap.set("n", "<leader>u", "<cmd>UndotreeToggle<CR>")
