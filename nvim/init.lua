@@ -14,6 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 
 require("lazy").setup({
+    { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true, opts = ...},
     "nvim-lua/plenary.nvim",
 
     {
@@ -54,5 +55,5 @@ require("lazy").setup({
     { "mbbill/undotree" }
 })
 
-require("lazy/petrside.remap")
-require("lazy/petrside.set")
+require("petrside.remap")
+require("petrside.set")
