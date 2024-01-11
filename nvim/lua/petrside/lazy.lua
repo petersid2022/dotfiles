@@ -13,7 +13,6 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 
-
 require("lazy").setup({
     "nvim-lua/plenary.nvim",
 
@@ -25,20 +24,16 @@ require("lazy").setup({
 
     "nvim-treesitter/nvim-treesitter-context",
 
-    {
-        "nvim-treesitter/nvim-treesitter",
-        build = function()
-            local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-            ts_update()
-        end
-    },
+    { "nvim-treesitter/nvim-treesitter",  build = ":TSUpdate" },
 
-    { 'VonHeikemen/lsp-zero.nvim',  branch = 'v3.x' },
+    { 'VonHeikemen/lsp-zero.nvim',        branch = 'v3.x' },
+    { 'williamboman/mason.nvim' },
+    { 'williamboman/mason-lspconfig.nvim' },
     { 'neovim/nvim-lspconfig' },
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/nvim-cmp' },
     { 'L3MON4D3/LuaSnip' },
-    { 'catppuccin/nvim',            name = 'catppuccin' },
+    { 'catppuccin/nvim',                  name = 'catppuccin' },
     { 'ThePrimeagen/harpoon' },
     { 'f-person/git-blame.nvim' },
     { 'nvim-tree/nvim-web-devicons' },
