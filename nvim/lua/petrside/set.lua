@@ -23,7 +23,7 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
+--vim.opt.colorcolumn = "80"
 
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0

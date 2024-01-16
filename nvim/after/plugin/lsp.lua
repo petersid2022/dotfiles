@@ -6,16 +6,16 @@ lsp_zero.on_attach(function(client, bufnr)
     vim.lsp.set_log_level("debug")
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-    -- vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+    --vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
     vim.keymap.set("n", "I", function() vim.diagnostic.open_float() end, opts)
-    vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-    vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+    vim.keymap.set("n", "[d", function() require("trouble").next({ skip_groups = true, jump = true }) end, opts)
+    vim.keymap.set("n", "]d", function() require("trouble").previous({ skip_groups = true, jump = true }) end, opts)
     -- vim.keymap.set("n", "<leader>ac", function() vim.lsp.buf.code_action() end, opts)
-    -- vim.keymap.set("n", "<leader>m", function() vim.lsp.buf.references() end, opts)
-    -- vim.keymap.set("n", "<leader>r", function() vim.lsp.buf.rename() end, opts)
-    vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+    -- vim.keymap.set("n", "<leader>w", function() vim.lsp.buf.references() end, opts)
+    --vim.keymap.set("n", "<leader>r", function() vim.lsp.buf.rename() end, opts)
+    --vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
     vim.keymap.set({ 'n', 'x' }, '<space>f', function()
-        vim.lsp.buf.format({ async = false, timeout_ms = 1000 })
+        vim.lsp.buf.format({ async = false, timeout_ms = 100 })
     end, opts)
 end)
 
@@ -38,9 +38,22 @@ require('mason-lspconfig').setup({
 })
 
 local lspconfig = require("lspconfig")
-
+-- lspconfig.gopls.setup({
+--     cmd = { "gopls" },
+-- })
 lspconfig.gopls.setup({
-    cmd = { "gopls" },
+    cmd = { "gopls", "serve", "-logfile=/home/petrside/.gopls.log", "-rpc.trace" },
+    -- cmd = { "gopls" },
+    settings = {
+        gopls = {
+            analyses = {
+                unusedparams = true,
+            },
+            staticcheck = true,
+            gofumpt = true,
+            verboseOutput = true,
+        },
+    },
 })
 
 lspconfig.rust_analyzer.setup({

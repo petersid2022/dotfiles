@@ -14,13 +14,19 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 
 require("lazy").setup({
-    { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true, opts = ...},
+    { "ellisonleao/gruvbox.nvim",         priority = 1000,    config = true, opts = ... },
     "nvim-lua/plenary.nvim",
+    {
+        "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
+    },
 
     {
-        "nvim-telescope/telescope.nvim",
-        version = "0.1.4",
-        dependencies = "nvim-lua/plenary.nvim",
+        'nvim-telescope/telescope.nvim',
+        tag = '0.1.5',
+        dependencies = { 'nvim-lua/plenary.nvim' }
     },
 
     "nvim-treesitter/nvim-treesitter-context",
@@ -36,7 +42,6 @@ require("lazy").setup({
     { 'L3MON4D3/LuaSnip' },
     { 'catppuccin/nvim',                  name = 'catppuccin' },
     { 'ThePrimeagen/harpoon' },
-    { 'f-person/git-blame.nvim' },
     { 'nvim-tree/nvim-web-devicons' },
     {
         "folke/trouble.nvim",
@@ -52,8 +57,11 @@ require("lazy").setup({
         "j-hui/fidget.nvim",
         opts = {},
     },
-    { "mbbill/undotree" }
+    { "mbbill/undotree" },
+    -- { "lewis6991/gitsigns.nvim" }
 })
 
 require("petrside.remap")
 require("petrside.set")
+vim.opt.langmap =
+"ΑA,ΒB,ΨC,ΔD,ΕE,ΦF,ΓG,ΗH,ΙI,ΞJ,ΚK,ΛL,ΜM,ΝN,ΟO,ΠP,QQ,ΡR,ΣS,ΤT,ΘU,ΩV,WW,ΧX,ΥY,ΖZ,αa,βb,ψc,δd,εe,φf,γg,ηh,ιi,ξj,κk,λl,μm,νn,οo,πp,qq,ρr,σs,τt,θu,ωv,ςw,χx,υy,ζz"
