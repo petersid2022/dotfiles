@@ -4,9 +4,9 @@
 --vim.cmd.colorscheme "ayu-dark"
 --
 -- vim.o.background = "dark" -- or "light" for light mode
--- vim.cmd([[colorscheme gruvbox]])
-vim.cmd[[colorscheme tokyonight]]
-
-require("tokyonight").setup({
-  style = "storm", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
-})
+vim.cmd([[colorscheme gruvbox]])
+-- vim.cmd[[colorscheme tokyonight]]
+-- 
+-- require("tokyonight").setup({
+--   style = "night", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+-- })

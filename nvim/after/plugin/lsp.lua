@@ -5,18 +5,18 @@ lsp_zero.on_attach(function(client, bufnr)
 
     vim.lsp.set_log_level("debug")
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-    vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+    vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, { buffer = bufnr, remap = false, desc = "lsp buf hover" })
     --vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
-    vim.keymap.set("n", "I", function() vim.diagnostic.open_float() end, opts)
-    vim.keymap.set("n", "[d", function() require("trouble").next({ skip_groups = true, jump = true }) end, opts)
-    vim.keymap.set("n", "]d", function() require("trouble").previous({ skip_groups = true, jump = true }) end, opts)
-    -- vim.keymap.set("n", "<leader>ac", function() vim.lsp.buf.code_action() end, opts)
+    vim.keymap.set("n", "I", function() vim.diagnostic.open_float() end, { buffer = bufnr, remap = false, desc = "diagnostic open float" })
+    vim.keymap.set("n", "<leader>ac", function() vim.lsp.buf.code_action() end, { buffer = bufnr, remap = false, desc = "lsp code action quickfix"})
+    -- vim.keymap.set("n", "[d", function() require("trouble").next({ skip_groups = true, jump = true }) end, opts)
+    -- vim.keymap.set("n", "]d", function() require("trouble").previous({ skip_groups = true, jump = true }) end, opts)
     -- vim.keymap.set("n", "<leader>w", function() vim.lsp.buf.references() end, opts)
     --vim.keymap.set("n", "<leader>r", function() vim.lsp.buf.rename() end, opts)
     --vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
     vim.keymap.set({ 'n', 'x' }, '<space>f', function()
         vim.lsp.buf.format({ async = false, timeout_ms = 100 })
-    end, opts)
+    end, {buffer = bufnr, remap = false, desc = "lsp buffer format"})
 end)
 
 lsp_zero.set_sign_icons({
@@ -54,6 +54,10 @@ lspconfig.gopls.setup({
             verboseOutput = true,
         },
     },
+})
+
+lspconfig.zls.setup({
+    cmd = { "zls" },
 })
 
 lspconfig.rust_analyzer.setup({

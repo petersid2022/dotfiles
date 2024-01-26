@@ -1,4 +1,17 @@
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>o', builtin.find_files, {})
-
-require('telescope').setup{}
+local themes = require('telescope.themes')
+vim.keymap.set('n', '<leader>ff', function()
+    require('telescope.builtin').find_files(themes.get_dropdown({}))
+end, { desc = "telescope find files" })
+vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, { desc = "telescope lsp_symbols" })
+vim.keymap.set('n', '<leader>fs', function()
+    require('telescope.builtin').live_grep(themes.get_dropdown({}))
+end, { desc = "telescope grep live" })
+vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = "telescope git files" })
+vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = "telescope git status" })
+vim.keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = "telescope lsp_references" })
+vim.keymap.set('n', '<leader>dw', builtin.diagnostics, { desc = "telescope workspace diagnostics" })
+vim.keymap.set('n', '<leader>db', ':lua require"telescope.builtin".diagnostics({bufnr=0})<CR>',
+    { noremap = true, silent = true, desc = "telescope buffer diagnostics" })
+vim.keymap.set('n', '<leader>sp', builtin.spell_suggest, { desc = "telescope spell suggest" })
+vim.keymap.set('n', '<leader>t', builtin.keymaps, { desc = "telescope search keymaps" })
