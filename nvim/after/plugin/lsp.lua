@@ -4,11 +4,14 @@ lsp_zero.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
 
     vim.lsp.set_log_level("debug")
-    vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-    vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, { buffer = bufnr, remap = false, desc = "lsp buf hover" })
+    vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end,
+        { buffer = bufnr, remap = false, desc = "go to defintion" })
+    vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end,
+        { buffer = bufnr, remap = false, desc = "lsp buf hover" })
     --vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
-    vim.keymap.set("n", "I", function() vim.diagnostic.open_float() end, { buffer = bufnr, remap = false, desc = "diagnostic open float" })
-    vim.keymap.set("n", "<leader>ac", function() vim.lsp.buf.code_action() end, { buffer = bufnr, remap = false, desc = "lsp code action quickfix"})
+    vim.keymap.set("n", "I", function() vim.diagnostic.open_float() end, opts)
+    vim.keymap.set("n", "<leader>ac", function() vim.lsp.buf.code_action() end,
+        { buffer = bufnr, remap = false, desc = "lsp code action quickfix" })
     -- vim.keymap.set("n", "[d", function() require("trouble").next({ skip_groups = true, jump = true }) end, opts)
     -- vim.keymap.set("n", "]d", function() require("trouble").previous({ skip_groups = true, jump = true }) end, opts)
     -- vim.keymap.set("n", "<leader>w", function() vim.lsp.buf.references() end, opts)
@@ -16,7 +19,7 @@ lsp_zero.on_attach(function(client, bufnr)
     --vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
     vim.keymap.set({ 'n', 'x' }, '<space>f', function()
         vim.lsp.buf.format({ async = false, timeout_ms = 100 })
-    end, {buffer = bufnr, remap = false, desc = "lsp buffer format"})
+    end, { buffer = bufnr, remap = false, desc = "lsp buffer format" })
 end)
 
 lsp_zero.set_sign_icons({
@@ -85,16 +88,34 @@ lspconfig.rust_analyzer.setup({
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_action = require('lsp-zero').cmp_action()
+require("luasnip.loaders.from_vscode").lazy_load({ lazy_paths = "/home/petrside/.config/nvim/luasnippets" })
+
+vim.keymap.set({ "i" }, "<C-K>", function() require("luasnip").expand() end, {})
+vim.keymap.set({ "i", "s" }, "<C-L>", function() require("luasnip").jump(1) end, {})
+vim.keymap.set({ "i", "s" }, "<C-J>", function() require("luasnip").jump(-1) end, {})
+vim.keymap.set({ "i", "s" }, "<C-E>", function()
+    if require("luasnip").choice_active() then
+        require("luasnip").change_choice(1)
+    end
+end, {})
 
 cmp.setup({
     preselect = 'item',
     completion = {
         completeopt = 'menu,menuone,noinsert'
     },
-    sources = {
+    sources = cmp.config.sources({
+        { name = 'luasnip' }, -- For luasnip users.
         { name = 'path' },
         { name = 'nvim_lsp' },
         { name = 'nvim_lua' },
+    }, {
+        { name = 'buffer' },
+    }),
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        end,
     },
     window = {
         completion = cmp.config.window.bordered(),

@@ -14,64 +14,57 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
 
 require("lazy").setup({
-    { "ellisonleao/gruvbox.nvim",         priority = 1000,    config = true, opts = ... },
-    "nvim-lua/plenary.nvim",
+    { "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = ... },
+    { "nvim-lua/plenary.nvim" },
     {
         "folke/tokyonight.nvim",
         lazy = false,
         priority = 1000,
         opts = {},
     },
-
+    {
+        'AlexvZyl/nordic.nvim',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require 'nordic'.load()
+        end
+    },
     {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.5',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
-
     {
         "nvim-treesitter/nvim-treesitter-context",
     },
-
     {
         "nvim-treesitter/nvim-treesitter",
         tag = "v0.9.2",
         build = ":TSUpdate"
     },
-
     { 'VonHeikemen/lsp-zero.nvim',        branch = 'v3.x' },
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
     { 'neovim/nvim-lspconfig' },
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/nvim-cmp' },
-    { 'L3MON4D3/LuaSnip' },
-    { 'catppuccin/nvim',                  name = 'catppuccin' },
-    -- {
-    --     "ThePrimeagen/harpoon",
-    --     branch = "harpoon2",
-    --     dependencies = { "nvim-lua/plenary.nvim" }
-    -- },
+    { 'saadparwaiz1/cmp_luasnip' },
+    { "rafamadriz/friendly-snippets" },
+    {
+        "L3MON4D3/LuaSnip",
+        version = "v2.*",
+        dependencies = { "rafamadriz/friendly-snippets" },
+    },
+
+    { 'catppuccin/nvim',            name = 'catppuccin' },
     { "ThePrimeagen/harpoon" },
     { 'nvim-tree/nvim-web-devicons' },
-    -- {
-    --     "folke/trouble.nvim",
-    --     dependencies = { "nvim-tree/nvim-web-devicons" },
-    --     opts = {},
-    -- },
     { 'Shatur/neovim-ayu' },
     {
         "folke/zen-mode.nvim",
         opts = {},
     },
-    -- {
-    --     "folke/which-key.nvim",
-    --     event = "VeryLazy",
-    --     init = function()
-    --         vim.o.timeout = true
-    --         vim.o.timeoutlen = 300
-    --     end,
-    -- },
     {
         "j-hui/fidget.nvim",
         opts = {},
