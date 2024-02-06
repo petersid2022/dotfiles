@@ -1,45 +1,67 @@
 set $mod Mod4
-
-font pango:Noto Sans 20px
-
+floating_modifier $mod
 focus_follows_mouse no
 
-gaps inner 5px
-gaps outer 5px
+font pango:Noto Sans 15
+#gaps inner 5px
+#gaps outer 5px
 
 exec_always --no-startup-id xinput set-prop "SYNA3296:00 06CB:CD50 Touchpad" "libinput Tapping Enabled" 1
 exec_always --no-startup-id "setxkbmap -model pc104 -layout us,gr -variant ,, -option grp:alt_shift_toggle"
 
-exec --no-startup-id sh -c "sleep 1 && /usr/local/bin/volumeicon"
+#exec --no-startup-id sh -c "sleep 1 && volumeicon"
+exec --no-startup-id "pasystray --volume-max=100 --notify=sink"
 exec --no-startup-id nm-applet
 exec --no-startup-id gxkb
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nitrogen --restore &
+exec --no-startup-id nitrogen --restore
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id xfce4-screensaver
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #exec --no-startup-id blueman-applet &
 
 bindcode 173 exec playerctl previous
 bindcode 172 exec playerctl play-pause
 bindcode 171 exec playerctl next
 
-floating_modifier $mod
+#bindsym Print exec NOW=$(date +%d-%b-%Y_%H-%M-%S) && maim --format png --select > ~/Pictures/screenshots/screenshot_$NOW.png && xclip -selection clip -t image/png ~/screenshots/screenshot_$NOW.png
+bindsym Print exec NOW=$(date +%d-%b-%Y_%H-%M-%S) && maim --format png --select | tee ~/Pictures/screenshots/screenshot_$NOW.png | xclip -selection clipboard -t image/png
+# bindsym $mod+Return exec --no-startup-id wezterm
+bindsym $mod+Return exec --no-startup-id alacritty 
 
-bindsym Control+Shift+Escape exec --no-startup-id xfce4-taskmanager
-bindsym Print exec --no-startup-id xfce4-screenshooter
-bindsym $mod+Return exec --no-startup-id xfce4-terminal 
+# Volume keys
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+# APP LAUNCHER MADNESS
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -f -i"
+# bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -f -i"
 #bindsym $mod+d exec --no-startup-id dmenu_run
-bindsym $mod+d exec --no-startup-id "rofi -modi drun -drun-match-fields name -show drun -kb-cancel Super_L+d,Escape,Super_L"
+#bindsym $mod+d exec --no-startup-id "rofi -modi drun -drun-match-fields name -show drun -drun-display-format {name} -kb-cancel Super_L+d,Escape"
+
+# old ones
+#bindsym $mod+d exec --no-startup-id "rofi -modi drun -show drun -kb-cancel Super_L+d,Escape"
+#bindsym $mod+d exec --no-startup-id "rofi -modi drun -show drun -kb-cancel Super_L+d,Escape,Super_L"
 #bindsym $mod+d exec --no-startup-id "dmenu_run -fn 'Noto Sans-18'"
+#bindsym $mod+d exec --no-startup-id "rofi -modi drun -show drun -kb-cancel Super_L+d,Escape,Super_L"
+#bindsym $mod+d exec --no-startup-id "rofi -modi drun -drun-match-fields name -show drun -kb-cancel Super_L+d,Escape,Super_L"
+
 bindsym $mod+t exec --no-startup-id "thunar /home/petrside/7o-eksamhno"
 bindsym $mod+c exec --no-startup-id "chromium"
+bindsym $mod+g exec --no-startup-id "gnome-calculator"
+bindsym $mod+m exec --no-startup-id "pavucontrol"
 bindsym $mod+o exec --no-startup-id "thunar /home/petrside/"
 bindsym $mod+q kill
 bindsym $mod+Tab workspace back_and_forth
+bindcode $mod+34 workspace prev
+bindcode $mod+35 workspace next
 
 # change focus
-bindcode $mod+60 focus left
-bindcode $mod+61 focus right
+# bindcode $mod+60 focus left
+# bindcode $mod+61 focus right
+
+bindsym $mod+Control+h split h
+bindsym $mod+Control+v split v
 
 bindsym $mod+h focus left 
 bindsym $mod+l focus right
@@ -47,16 +69,16 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up 
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+# bindsym $mod+Shift+Left move left
+# bindsym $mod+Shift+Down move down
+# bindsym $mod+Shift+Up move up
+# bindsym $mod+Shift+Right move right
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -75,29 +97,40 @@ bindsym $mod+space focus mode_toggle
 # focus the parent container
 bindsym $mod+a focus parent
 
+# https://github.com/ValveSoftware/steam-for-linux/issues/1040
+for_window [class="^steam$"] floating enable
+for_window [class="^Steam$"] floating enable
+for_window [class="^steam$" title="^Steam$"] floating disable
+
 for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
-for_window [class="Image Lounge" instance="nomacs"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Pavucontrol"] move absolute position 100 100
+for_window [class="Pavucontrol"] resize set width 1000 height 500
+
+#for_window [class="Image Lounge" instance="nomacs"] floating enable
 #for_window [class="Caffeine" instance="caffeine"] floating enable
-for_window [class="Anki" instance="anki"] floating enable
-for_window [class="Blueman-manager" instance="blueman-manager"] floating enable
-for_window [class="org.gnome.clocks" instance="org.gnome.clocks"] floating enable
-for_window [class="Lxappearance" instance="lxappearance"] floating enable
+#for_window [class="Anki" instance="anki"] floating enable
+#for_window [class="Blueman-manager" instance="blueman-manager"] floating enable
+#for_window [class="org.gnome.clocks" instance="org.gnome.clocks"] floating enable
+#for_window [class="Lxappearance" instance="lxappearance"] floating enable
 for_window [class="Nm-connection-editor" instance="nm-connection-editor"] floating enable
 #for_window [class="Kalendar" instance="Kalendar"] floating enable
 #for_window [class="Pystopwatch" instance="pystopwatch"] floating enable
 #for_window [class="qalculate-qt" instance="qalculate-qt"] floating enable
-for_window [class="Galculator" instance="galculator"] floating enable
+for_window [class="gnome-calculator" instance="gnome-calculator"] floating enable
 for_window [class="Volctl" instance="volctl"] floating enable
 for_window [class="File-roller" instance="file-roller"] floating enable
 for_window [class="Xarchiver" instance="xarchiver"] floating enable
-#for_window [class="vlc" instance="vlc"] floating enable
-#for_window [class="albert" instance="albert"] floating enable
+for_window [class="Webcamoid" instance="webcamoid"] floating enable
+for_window [class="Tomate-gtk" instance="tomate-gtk"] floating disable
+for_window [instance="tomate-gtk" title="Preferences"] floating enable
+for_window [instance="terminator" title="Terminator Preferences"] floating enable
 for_window [class="Yad"] floating enable
 for_window [class="kizzy" instance="kizzy"] floating enable
+for_window [all] title_format %class
+#for_window [instance="com.github.maoschanz.drawing" title="Drawing"] floating enable
 #for_window [all] title_window_icon on
-for_window [class=".*"] title_format %class
-
-#focus the child container
+for_window [all] border pixel 3
 
 set $ws1 "1"
 set $ws2 "2"
@@ -132,40 +165,46 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-bindsym $mod+Shift+c reload
-bindsym $mod+Shift+r restart
+#bindsym $mod+Shift+c reload
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec /home/petrside/.config/i3/power_menu.sh
 
-mode "RESIZE" {
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym j resize grow height 10 px or 10 ppt
-        bindsym k resize shrink height 10 px or 10 ppt
-        bindsym l resize grow width 10 px or 10 ppt
-
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
+mode "Resize" {
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+    
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+    
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
 }
 
-mode "CAPSLOCK" {
-    bindsym Caps_Lock mode "default"
-}
+bindsym $mod+r mode "Resize"
 
-bindsym Caps_Lock mode "CAPSLOCK"
-
-bindsym $mod+r mode "RESIZE"
+title_align center
 
 bar {
-    tray_padding 4px
+    tray_padding 4
     bindsym button4 nop
     bindsym button5 nop
     bindsym button6 nop
     bindsym button7 nop
     status_command i3status
 }
+
+# colors {
+#     separator #969896
+#     background #1d1f21
+#     statusline #c5c8c6
+#     focused_workspace #81a2be #81a2be #1d1f21
+#     active_workspace #373b41 #373b41 #ffffff
+#     inactive_workspace #282a2e #282a2e #969896
+#     urgent_workspace #cc6666 #cc6666 #ffffff
+# }
