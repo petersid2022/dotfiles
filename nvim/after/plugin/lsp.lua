@@ -1,24 +1,32 @@
 local lsp_zero = require('lsp-zero')
 
-lsp_zero.on_attach(function(client, bufnr)
+lsp_zero.on_attach(function(_, bufnr)
     local opts = { buffer = bufnr, remap = false }
+
+    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+        vim.lsp.handlers.hover,
+        -- {} for no border at all
+        -- see :h vim.lsp.handlers.hover
+        { border = "single" }
+    )
+
+    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+        vim.lsp.handlers.signature_help,
+        { border = "single" }
+    )
 
     vim.lsp.set_log_level("debug")
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end,
         { buffer = bufnr, remap = false, desc = "go to defintion" })
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end,
         { buffer = bufnr, remap = false, desc = "lsp buf hover" })
-    --vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
     vim.keymap.set("n", "I", function() vim.diagnostic.open_float() end, opts)
     vim.keymap.set("n", "<leader>ac", function() vim.lsp.buf.code_action() end,
         { buffer = bufnr, remap = false, desc = "lsp code action quickfix" })
-    -- vim.keymap.set("n", "[d", function() require("trouble").next({ skip_groups = true, jump = true }) end, opts)
-    -- vim.keymap.set("n", "]d", function() require("trouble").previous({ skip_groups = true, jump = true }) end, opts)
-    -- vim.keymap.set("n", "<leader>w", function() vim.lsp.buf.references() end, opts)
-    --vim.keymap.set("n", "<leader>r", function() vim.lsp.buf.rename() end, opts)
-    --vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+    vim.keymap.set("n", "<leader>lbr", function() vim.lsp.buf.rename() end,
+        { buffer = bufnr, remap = false, desc = "lsp code buffer rename" })
     vim.keymap.set({ 'n', 'x' }, '<space>f', function()
-        vim.lsp.buf.format({ async = false, timeout_ms = 100 })
+        vim.lsp.buf.format({})
     end, { buffer = bufnr, remap = false, desc = "lsp buffer format" })
 end)
 
@@ -41,12 +49,9 @@ require('mason-lspconfig').setup({
 })
 
 local lspconfig = require("lspconfig")
--- lspconfig.gopls.setup({
---     cmd = { "gopls" },
--- })
+
 lspconfig.gopls.setup({
     cmd = { "gopls", "serve", "-logfile=/home/petrside/.gopls.log", "-rpc.trace" },
-    -- cmd = { "gopls" },
     settings = {
         gopls = {
             analyses = {
@@ -118,8 +123,8 @@ cmp.setup({
         end,
     },
     window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        -- completion = cmp.config.window.bordered(),
+        -- documentation = cmp.config.window.bordered(),
     },
     formatting = lsp_zero.cmp_format(),
     mapping = cmp.mapping.preset.insert({
