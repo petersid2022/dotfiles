@@ -1,10 +1,18 @@
-require('telescope').setup{
+require('telescope').setup {
+    extensions = {
+        ["ui-select"] = {
+            require("telescope.themes").get_dropdown {}
+        }
+    },
     defaults = {
         mappings = {
             i = {
                 ["<C-h>"] = "which_key",
                 ["<esc>"] = require('telescope.actions').close,
                 ["<Space>t"] = require('telescope.actions').close,
+                ["<Space>e"] = require('telescope.actions').close,
+                ["<Tab>"] = require('telescope.actions').move_selection_next,
+                ["<S-Tab>"] = require('telescope.actions').move_selection_previous,
             },
         }
     }
@@ -19,11 +27,7 @@ end, { desc = "TS find files" })
 
 vim.keymap.set('n', '<leader>lds', function()
     builtin.lsp_document_symbols(themes.get_ivy({}))
-end , { desc = "TS lsp symbols" })
-
--- vim.keymap.set('n', '<leader>lws', function()
---     builtin.lsp_workspace_symbols(themes.get_ivy({}))
--- end , { desc = "TS workspace lsp symbols" })
+end, { desc = "TS lsp symbols" })
 
 vim.keymap.set('n', '<leader>fs', function()
     require('telescope.builtin').live_grep(themes.get_ivy({}))
@@ -33,12 +37,14 @@ vim.keymap.set('n', '<leader>gf', function() builtin.git_files(themes.get_ivy({}
 
 vim.keymap.set('n', '<leader>gs', function() builtin.git_status(themes.get_ivy({})) end, { desc = "TS git status" })
 
-vim.keymap.set('n', '<leader>lr', function() builtin.lsp_references(themes.get_ivy({})) end, { desc = "TS lsp references" })
+vim.keymap.set('n', '<leader>lr', function() builtin.lsp_references(themes.get_ivy({})) end,
+    { desc = "TS lsp references" })
 
-vim.keymap.set('n', '<leader>dw', function() builtin.diagnostics(themes.get_ivy({})) end, { desc = "TS workspace diagnostics" })
+vim.keymap.set('n', '<leader>dw', function() builtin.diagnostics(themes.get_ivy({})) end,
+    { desc = "TS workspace diagnostics" })
 
 vim.keymap.set('n', '<leader>db', function()
-    require('telescope.builtin').diagnostics(themes.get_ivy({bufnr=0}))
+    require('telescope.builtin').diagnostics(themes.get_ivy({ bufnr = 0 }))
 end, { noremap = true, silent = true, desc = "TS buffer diagnostics" })
 
 vim.keymap.set('n', '<leader>sp', function()
@@ -52,9 +58,12 @@ vim.keymap.set('n', '<leader>t', function()
     }))
 end, { desc = "TS search keymaps" })
 
-vim.keymap.set('n', '<leader>bb', function()
+vim.keymap.set('n', '<leader>e', function()
     require('telescope.builtin').buffers(themes.get_ivy({
+        sort_mru=true,
+        ignore_current_buffer=true,
         show_plug = false,
+        previewer = false,
         modes = { "n" }
     }))
 end, { desc = "TS neovim show buffers" })

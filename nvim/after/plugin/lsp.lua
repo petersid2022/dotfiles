@@ -1,139 +1,108 @@
-local lsp_zero = require('lsp-zero')
+vim.api.nvim_create_autocmd('LspAttach', {
+	group = vim.api.nvim_create_augroup('custom-lsp-attach', { clear = true }),
+	callback = function(event)
+		local opts = { buffer = event.buf }
 
-lsp_zero.on_attach(function(_, bufnr)
-    local opts = { buffer = bufnr, remap = false }
+		vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {})
 
-    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-        vim.lsp.handlers.hover,
-        -- {} for no border at all
-        -- see :h vim.lsp.handlers.hover
-        { border = "single" }
-    )
+		vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {})
 
-    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-        vim.lsp.handlers.signature_help,
-        { border = "single" }
-    )
-
-    vim.lsp.set_log_level("debug")
-    vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end,
-        { buffer = bufnr, remap = false, desc = "go to defintion" })
-    vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end,
-        { buffer = bufnr, remap = false, desc = "lsp buf hover" })
-    vim.keymap.set("n", "I", function() vim.diagnostic.open_float() end, opts)
-    vim.keymap.set("n", "<leader>ac", function() vim.lsp.buf.code_action() end,
-        { buffer = bufnr, remap = false, desc = "lsp code action quickfix" })
-    vim.keymap.set("n", "<leader>lbr", function() vim.lsp.buf.rename() end,
-        { buffer = bufnr, remap = false, desc = "lsp code buffer rename" })
-    vim.keymap.set({ 'n', 'x' }, '<space>f', function()
-        vim.lsp.buf.format({})
-    end, { buffer = bufnr, remap = false, desc = "lsp buffer format" })
-end)
-
-lsp_zero.set_sign_icons({
-    error = '✘',
-    warn = '▲',
-    hint = '⚑',
-    info = '»'
+		vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end,
+			{ buffer = event.buf, remap = false, desc = "go to defintion" })
+		vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end,
+			{ buffer = event.buf, remap = false, desc = "lsp buf hover" })
+		vim.keymap.set("n", "I", function() vim.diagnostic.open_float() end, opts)
+		vim.keymap.set("n", "<leader>ac", function() vim.lsp.buf.code_action() end,
+			{ buffer = event.buf, remap = false, desc = "lsp code action quickfix" })
+		vim.keymap.set("n", "<leader>lbr", function() vim.lsp.buf.rename() end,
+			{ buffer = event.buf, remap = false, desc = "lsp code buffer rename" })
+		vim.keymap.set({ 'n', 'x' }, '<space>f', function()
+			vim.lsp.buf.format({ async = true })
+		end, { buffer = event.buf, remap = false, desc = "lsp buffer format" })
+	end
 })
 
-require('mason').setup({})
+local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+local default_setup = function(server)
+	require('lspconfig')[server].setup({
+		capabilities = lsp_capabilities,
+	})
+end
+
+local signs = { Error = "✘", Warn = "▲", Hint = "⚑", Info = "" }
+for type, icon in pairs(signs) do
+	local hl = "DiagnosticSign" .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+require('mason').setup()
 require('mason-lspconfig').setup({
-    handlers = {
-        lsp_zero.default_setup,
-        lua_ls = function()
-            local lua_opts = lsp_zero.nvim_lua_ls()
-            require('lspconfig').lua_ls.setup(lua_opts)
-        end,
-    }
+	ensure_installed = {},
+	handlers = {
+		default_setup,
+	},
 })
 
 local lspconfig = require("lspconfig")
 
 lspconfig.gopls.setup({
-    cmd = { "gopls", "serve", "-logfile=/home/petrside/.gopls.log", "-rpc.trace" },
-    settings = {
-        gopls = {
-            analyses = {
-                unusedparams = true,
-            },
-            staticcheck = true,
-            gofumpt = true,
-            verboseOutput = true,
-        },
-    },
+	cmd = { "gopls", "serve", "-logfile=/home/petrside/.gopls.log", "-rpc.trace" },
+	settings = {
+		gopls = {
+			analyses = {
+				unusedparams = true,
+			},
+			staticcheck = true,
+			gofumpt = true,
+			verboseOutput = true,
+		},
+	},
 })
 
 lspconfig.zls.setup({
-    cmd = { "zls" },
+	cmd = { "zls" },
+})
+
+lspconfig.lua_ls.setup({
+	capabilities = lsp_capabilities,
+	settings = {
+		Lua = {
+			runtime = {
+				version = 'LuaJIT'
+			},
+			diagnostics = {
+				globals = { 'vim' },
+			},
+			workspace = {
+				checkThirdParty = false,
+				library = {
+					vim.env.VIMRUNTIME,
+				}
+			},
+			telemetry = { enable = false },
+		}
+	}
 })
 
 lspconfig.rust_analyzer.setup({
-    cmd = { "/home/petrside/.local/bin/rust-analyzer" },
-    settings = {
-        ["rust-analyzer"] = {
-            imports = {
-                granularity = {
-                    group = "module",
-                },
-                prefix = "self",
-            },
-            cargo = {
-                buildScripts = {
-                    enable = true,
-                },
-            },
-            procMacro = {
-                enable = true
-            },
-        }
-    }
-})
-
-local cmp = require('cmp')
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_action = require('lsp-zero').cmp_action()
-require("luasnip.loaders.from_vscode").lazy_load({ lazy_paths = "/home/petrside/.config/nvim/luasnippets" })
-
-vim.keymap.set({ "i" }, "<C-K>", function() require("luasnip").expand() end, {})
-vim.keymap.set({ "i", "s" }, "<C-L>", function() require("luasnip").jump(1) end, {})
-vim.keymap.set({ "i", "s" }, "<C-J>", function() require("luasnip").jump(-1) end, {})
-vim.keymap.set({ "i", "s" }, "<C-E>", function()
-    if require("luasnip").choice_active() then
-        require("luasnip").change_choice(1)
-    end
-end, {})
-
-cmp.setup({
-    preselect = 'item',
-    completion = {
-        completeopt = 'menu,menuone,noinsert'
-    },
-    sources = cmp.config.sources({
-        { name = 'luasnip' }, -- For luasnip users.
-        { name = 'path' },
-        { name = 'nvim_lsp' },
-        { name = 'nvim_lua' },
-    }, {
-        { name = 'buffer' },
-    }),
-    snippet = {
-        expand = function(args)
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-        end,
-    },
-    window = {
-        -- completion = cmp.config.window.bordered(),
-        -- documentation = cmp.config.window.bordered(),
-    },
-    formatting = lsp_zero.cmp_format(),
-    mapping = cmp.mapping.preset.insert({
-        ['<Tab>'] = cmp_action.luasnip_supertab(),
-        ['<S-Tab>'] = cmp.mapping.select_prev_item(cmp_select),
-        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        ['<Enter>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-Space>'] = cmp.mapping.complete(),
-    }),
+	cmd = { "/home/petrside/.local/bin/rust-analyzer" },
+	settings = {
+		["rust-analyzer"] = {
+			imports = {
+				granularity = {
+					group = "module",
+				},
+				prefix = "self",
+			},
+			cargo = {
+				buildScripts = {
+					enable = true,
+				},
+			},
+			procMacro = {
+				enable = true
+			},
+		}
+	}
 })
