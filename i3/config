@@ -2,6 +2,7 @@ set $mod Mod4
 floating_modifier $mod
 focus_follows_mouse no
 
+exec_always --no-startup-id "xset r rate 400 50"
 exec_always --no-startup-id xinput set-prop "SYNA3296:00 06CB:CD50 Touchpad" "libinput Tapping Enabled" 1
 exec_always --no-startup-id "setxkbmap -model pc104 -layout us,gr -variant ,, -option grp:alt_shift_toggle"
 
@@ -27,17 +28,7 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #d
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # APP LAUNCHER MADNESS
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -f -i -l 10 -p "Run""
 bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --dmenu="dmenu -f -i -l 10"
-# bindsym $mod+d exec --no-startup-id dmenu_run
-# bindsym $mod+d exec --no-startup-id "rofi -modi drun -drun-match-fields name -show drun -drun-display-format {name} -kb-cancel Super_L+d,Escape"
-
-# OLD ONES
-# bindsym $mod+d exec --no-startup-id "rofi -modi drun -show drun -kb-cancel Super_L+d,Escape"
-# bindsym $mod+d exec --no-startup-id "rofi -modi drun -show drun -kb-cancel Super_L+d,Escape,Super_L"
-# bindsym $mod+d exec --no-startup-id "dmenu_run -fn 'Noto Sans-18'"
-# bindsym $mod+d exec --no-startup-id "rofi -modi drun -show drun -kb-cancel Super_L+d,Escape,Super_L"
-# bindsym $mod+d exec --no-startup-id "rofi -modi drun -drun-match-fields name -show drun -kb-cancel Super_L+d,Escape,Super_L"
 
 bindsym $mod+t exec --no-startup-id "pcmanfm /home/petrside/7o-eksamhno"
 bindsym $mod+m exec --no-startup-id "pavucontrol"
@@ -84,11 +75,11 @@ for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Pavucontrol"] move absolute position 100 100
 for_window [class="Pavucontrol"] resize set width 1000 height 500
-# for_window [class="Image Lounge" instance="nomacs"] floating enable
+for_window [class="QTalarm" instance="qtalarm"] floating enable
 # for_window [class="Caffeine" instance="caffeine"] floating enable
+# for_window [class="Image Lounge" instance="nomacs"] floating enable
 # for_window [class="Anki" instance="anki"] floating enable
 # for_window [class="Blueman-manager" instance="blueman-manager"] floating enable
-# for_window [class="org.gnome.clocks" instance="org.gnome.clocks"] floating enable
 # for_window [class="Lxappearance" instance="lxappearance"] floating enable
 # for_window [class="Kalendar" instance="Kalendar"] floating enable
 # for_window [class="Pystopwatch" instance="pystopwatch"] floating enable
@@ -143,7 +134,7 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec /home/petrside/.config/i3/power_menu.sh
+bindsym $mod+Shift+e exec ~/.config/i3/power_menu.sh
 
 mode "Resize" {
     bindsym h resize shrink width 10 px or 10 ppt
