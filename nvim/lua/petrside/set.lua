@@ -4,7 +4,7 @@ vim.opt.guicursor = ""
 vim.opt.breakindent = true
 
 vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+-- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Precede each line with its line number.
 vim.opt.nu = true

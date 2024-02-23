@@ -22,7 +22,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	end
 })
 
-local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local lsp_capabilities = vim.tbl_deep_extend('force', vim.lsp.protocol.make_client_capabilities(),
+	require('cmp_nvim_lsp').default_capabilities())
 
 local default_setup = function(server)
 	require('lspconfig')[server].setup({
@@ -30,7 +31,8 @@ local default_setup = function(server)
 	})
 end
 
-local signs = { Error = "✘", Warn = "▲", Hint = "⚑", Info = "" }
+-- local signs = { Error = "✘", Warn = "▲", Hint = "⚑", Info = "" }
+local signs = { Error = "✘", Warn = "▲", Hint = "i", Info = "i" }
 for type, icon in pairs(signs) do
 	local hl = "DiagnosticSign" .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
@@ -47,7 +49,9 @@ require('mason-lspconfig').setup({
 local lspconfig = require("lspconfig")
 
 lspconfig.gopls.setup({
-	cmd = { "gopls", "serve", "-logfile=/home/petrside/.gopls.log", "-rpc.trace" },
+	-- Passing in arguments like so:
+	-- cmd = { "gopls", "serve", "-logfile=/home/petrside/.gopls.log", "-rpc.trace" },
+	cmd = { "gopls" },
 	settings = {
 		gopls = {
 			analyses = {
