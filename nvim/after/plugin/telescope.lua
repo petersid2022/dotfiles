@@ -1,90 +1,39 @@
 require('telescope').setup {
-    extensions = {
-        ["ui-select"] = {
-            require("telescope.themes").get_dropdown {}
-        }
-    },
-    defaults = {
-        mappings = {
-            i = {
-                ["<C-h>"] = "which_key",
-                ["<esc>"] = require('telescope.actions').close,
-                ["<Space>t"] = require('telescope.actions').close,
-                ["<Space>e"] = require('telescope.actions').close,
-                ["<Tab>"] = require('telescope.actions').move_selection_next,
-                ["<S-Tab>"] = require('telescope.actions').move_selection_previous,
-            },
-        }
-    }
+	extensions = {
+		["ui-select"] = {
+			require("telescope.themes").get_dropdown()
+		}
+	},
+	defaults = {
+		mappings = {
+			i = {
+				["<esc>"] = require('telescope.actions').close,
+				["<Space>t"] = require('telescope.actions').close,
+				["<Tab>"] = require('telescope.actions').move_selection_previous,
+				["<S-Tab>"] = require('telescope.actions').move_selection_next,
+			},
+		}
+	}
 }
 
+-- pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'ui-select')
+
 local builtin = require('telescope.builtin')
-local themes = require('telescope.themes')
 
-vim.keymap.set('n', '<leader>ff', function()
-    require('telescope.builtin').find_files(themes.get_ivy({}))
-end, { desc = "TS find files" })
-
-vim.keymap.set('n', '<leader>lds', function()
-    builtin.lsp_document_symbols(themes.get_ivy({}))
-end, { desc = "TS lsp symbols" })
-
-vim.keymap.set('n', '<leader>fs', function()
-    require('telescope.builtin').live_grep(themes.get_ivy({}))
-end, { desc = "TS grep live" })
-
-vim.keymap.set('n', '<leader>gf', function() builtin.git_files(themes.get_ivy({})) end, { desc = "TS git files" })
-
-vim.keymap.set('n', '<leader>gs', function() builtin.git_status(themes.get_ivy({})) end, { desc = "TS git status" })
-
-vim.keymap.set('n', '<leader>lr', function() builtin.lsp_references(themes.get_ivy({})) end,
-    { desc = "TS lsp references" })
-
-vim.keymap.set('n', '<leader>dw', function() builtin.diagnostics(themes.get_ivy({})) end,
-    { desc = "TS workspace diagnostics" })
-
-vim.keymap.set('n', '<leader>db', function()
-    require('telescope.builtin').diagnostics(themes.get_ivy({ bufnr = 0 }))
-end, { noremap = true, silent = true, desc = "TS buffer diagnostics" })
-
-vim.keymap.set('n', '<leader>sp', function()
-    builtin.spell_suggest(themes.get_cursor({}))
-end, { desc = "TS spell suggest" })
-
-vim.keymap.set('n', '<leader>t', function()
-    require('telescope.builtin').keymaps(themes.get_ivy({
-        show_plug = false,
-        modes = { "n" }
-    }))
-end, { desc = "TS search keymaps" })
-
-vim.keymap.set('n', '<leader>e', function()
-    require('telescope.builtin').buffers(themes.get_ivy({
-        sort_mru=true,
-        ignore_current_buffer=true,
-        show_plug = false,
-        previewer = false,
-        modes = { "n" }
-    }))
-end, { desc = "TS neovim show buffers" })
-
-vim.keymap.set('n', '<leader>bf', function()
-    require('telescope.builtin').current_buffer_fuzzy_find(themes.get_ivy({
-        show_plug = false,
-        modes = { "n" }
-    }))
-end, { desc = "TS current buffer fzf find" })
-
-vim.keymap.set('n', '<leader>mp', function()
-    require('telescope.builtin').man_pages(themes.get_ivy({
-        show_plug = false,
-        modes = { "n" }
-    }))
-end, { desc = "TS man pages" })
-
-vim.keymap.set('n', '<leader>gc', function()
-    require('telescope.builtin').git_commits(themes.get_ivy({
-        show_plug = false,
-        modes = { "n" }
-    }))
-end, { desc = "TS git commits" })
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "Telescope: Find Files" })
+vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, { desc = "Telescope: LSP Symbols" })
+vim.keymap.set('n', '<leader>fs', builtin.live_grep, { desc = "Telescope: Workspace Live Grep" })
+vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = "Telescope: Search Git Files" })
+vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = "Telescope: Git Status" })
+vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = "Telescope: Git Commits" })
+vim.keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = "Telescope: LSP References" })
+vim.keymap.set('n', '<leader>dw', builtin.diagnostics, { desc = "Telescope: Workspace Diagnostics" })
+vim.keymap.set('n', '<leader>db', function() builtin.diagnostics { bufnr = 0 } end,
+	{ desc = "Telescope: Buffer Diagnostics" })
+vim.keymap.set('n', '<leader>sp', builtin.spell_suggest, { desc = "Telescope: Spell Suggest" })
+vim.keymap.set('n', '<leader>t', function() builtin.keymaps { show_plug = false, modes = { "n" } } end,
+	{ desc = "Telescope: Search Keymaps" })
+vim.keymap.set('n', '<leader>fw', builtin.current_buffer_fuzzy_find, { desc = "Telescope: Buffer Find Word" })
+vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = 'Telescope: Search Current Word across Workspace' })
+vim.keymap.set('n', '<leader>ht', builtin.help_tags, { desc = "Telescope: Help Tags" })

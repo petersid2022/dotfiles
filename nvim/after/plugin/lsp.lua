@@ -8,17 +8,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {})
 
 		vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end,
-			{ buffer = event.buf, remap = false, desc = "go to defintion" })
+			{ buffer = event.buf, remap = false, desc = "LSP: Go to defintion" })
 		vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end,
-			{ buffer = event.buf, remap = false, desc = "lsp buf hover" })
+			{ buffer = event.buf, remap = false, desc = "LSP: buffer hover" })
+		vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'LSP: Go to previous [D]iagnostic message' })
+		vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'LSP: Go to next [D]iagnostic message' })
 		vim.keymap.set("n", "I", function() vim.diagnostic.open_float() end, opts)
 		vim.keymap.set("n", "<leader>ac", function() vim.lsp.buf.code_action() end,
-			{ buffer = event.buf, remap = false, desc = "lsp code action quickfix" })
+			{ buffer = event.buf, remap = false, desc = "LSP: Code Action" })
 		vim.keymap.set("n", "<leader>lbr", function() vim.lsp.buf.rename() end,
-			{ buffer = event.buf, remap = false, desc = "lsp code buffer rename" })
+			{ buffer = event.buf, remap = false, desc = "LSP: Buffer Rename" })
 		vim.keymap.set({ 'n', 'x' }, '<space>f', function()
 			vim.lsp.buf.format({ async = true })
-		end, { buffer = event.buf, remap = false, desc = "lsp buffer format" })
+		end, { buffer = event.buf, remap = false, desc = "LSP: Buffer Format" })
 	end
 })
 
@@ -29,13 +31,6 @@ local default_setup = function(server)
 	require('lspconfig')[server].setup({
 		capabilities = lsp_capabilities,
 	})
-end
-
--- local signs = { Error = "✘", Warn = "▲", Hint = "⚑", Info = "" }
-local signs = { Error = "✘", Warn = "▲", Hint = "i", Info = "i" }
-for type, icon in pairs(signs) do
-	local hl = "DiagnosticSign" .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
 require('mason').setup()
