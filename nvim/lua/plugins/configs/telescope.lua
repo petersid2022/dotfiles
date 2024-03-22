@@ -1,28 +1,63 @@
+local trouble = require("trouble.providers.telescope")
+
+local open_selected_with_trouble = function(...)
+    return trouble.open_selected_with_trouble(...)
+end
+
+require('telescope').setup {
+    defaults = {
+        mappings = {
+            i = {
+                ["<c-q>"] = trouble.open_with_trouble,
+                ["<c-s-q>"] = open_selected_with_trouble
+            },
+            n = {
+                ["<c-q>"] = trouble.open_with_trouble,
+                ["<c-s-q>"] = open_selected_with_trouble
+            },
+        },
+        layout_config = {
+            horizontal = { prompt_position = "top" },
+        },
+    },
+    extensions = {
+        ['ui-select'] = {
+            require('telescope.themes').get_dropdown(),
+        },
+        fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "ignore_case",
+        }
+    },
+}
+
+pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'ui-select')
+
 local builtin = require('telescope.builtin')
 
-vim.api.nvim_create_autocmd('TextYankPost', {
-	group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-})
+local map = function(mode, keys, func, desc)
+    vim.keymap.set(mode, keys, func, { desc = "Telescope: " .. desc })
+end
 
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "Telescope: Find Files" })
-vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, { desc = "Telescope: LSP Symbols" })
-vim.keymap.set('n', '<leader>fs', builtin.live_grep, { desc = "Telescope: Live Grep inside Workspace" })
-vim.keymap.set('n', '<leader>s/', function() builtin.live_grep { grep_open_files = true, } end,
-	{ desc = 'Telescope: Live Grep inside Open Files' })
-vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = "Telescope: Search Git Files" })
-vim.keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = "Telescope: LSP References" })
-vim.keymap.set('n', '<leader>dw', builtin.diagnostics, { desc = "Telescope: Workspace Diagnostics" })
-vim.keymap.set('n', '<leader>db', function() builtin.diagnostics { bufnr = 0 } end,
-	{ desc = "Telescope: Buffer Diagnostics" })
-vim.keymap.set('n', '<leader>sp', builtin.spell_suggest, { desc = "Telescope: Spell Suggest" })
-vim.keymap.set('n', '<leader>t', function() builtin.keymaps { show_plug = false, modes = { "n" } } end,
-	{ desc = "Telescope: Search Keymaps" })
-vim.keymap.set('n', '<leader>fw', builtin.current_buffer_fuzzy_find, { desc = "Telescope: Fuzzy-Find word in current buffer" })
-vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = 'Telescope: Search Current Word across Workspace' })
-vim.keymap.set('n', '<leader>ht', builtin.help_tags, { desc = "Telescope: Help Tags" })
-vim.keymap.set('n', '<leader>co', function() builtin.colorscheme { enable_preview = true } end,
-	{ desc = "Telescope: Preview Colorscheme" })
-vim.keymap.set('n', '<leader>bb', builtin.buffers, { desc = "Telescope: Lists open buffers in current neovim instance" })
+-- LSP
+map('n', '<leader>ls', function() builtin.lsp_document_symbols { previewer = false } end, "LSP Symbols")
+map('n', '<leader>lt', function() builtin.treesitter { previewer = false } end, "Treesitter Symbols")
+
+-- Searching
+map('n', '<leader>t', function() builtin.find_files { previewer = false } end, "Find Files")
+map('n', '<leader>fs', builtin.live_grep, "Live Grep inside Workspace")
+map('n', '<leader>fw', function() builtin.current_buffer_fuzzy_find { previewer = false } end, "Fuzzy-Find word in current buffer")
+map('n', '<leader>sw', builtin.grep_string, "Search Current Word across Workspace")
+
+-- Git
+map('n', '<leader>gf', function() builtin.git_files { previewer = false } end, "Search Git Files")
+map('n', '<leader>gc', builtin.git_commits, "Search Git Commits")
+
+-- Misc
+map('n', '<leader>sp', builtin.spell_suggest, "Spell Suggest")
+map('n', '<leader>k', function() builtin.keymaps { show_plug = false, modes = { "n" } } end, "Search Keymaps")
+map('n', '<leader>ht', function() builtin.help_tags { previewer = false } end, "Help Tags")
+map('n', '<leader>bb', function() builtin.buffers { previewer = false } end, "Lists open buffers")

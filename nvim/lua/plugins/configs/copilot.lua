@@ -20,6 +20,7 @@ local prompts = {
 return {
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
+        tag = 'v2.0.0',
 		branch = "canary",
 		dependencies = {
 			{ "zbirenbaum/copilot.lua" }, -- or github/copilot.vim

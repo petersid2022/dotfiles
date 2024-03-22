@@ -1,7 +1,7 @@
+---@diagnostic disable: undefined-field
 vim.g.mapleader = " "
 
-require "remap"
-require "set"
+require "config"
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -17,5 +17,3 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require "plugins"
-
-vim.cmd.colorscheme "tokyonight-night"

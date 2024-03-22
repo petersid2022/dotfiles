@@ -1,5 +1,9 @@
 local trouble = require 'trouble'
 
+local map = function(mode, keys, func, desc)
+    vim.keymap.set(mode, keys, func, { desc = "Trouble: " .. desc })
+end
+
 trouble.setup {
     position = "bottom", -- position of the list can be: bottom, top, left, right
     height = 10, -- height of the trouble list when position is top or bottom
@@ -9,7 +13,7 @@ trouble.setup {
     severity = nil, -- nil (ALL) or vim.diagnostic.severity.ERROR | WARN | INFO | HINT
     fold_open = "", -- icon used for open folds
     fold_closed = "", -- icon used for closed folds
-    group = true, -- group results by file
+    group = false, -- group results by file
     padding = false, -- add an extra new line on top of the list
     cycle_results = true, -- cycle item list when reaching beginning or end of list
     action_keys = { -- key mappings for actions in the trouble list
@@ -36,7 +40,7 @@ trouble.setup {
         next = "j",                                                                       -- next item
         help = "?"                                                                        -- help menu
     },
-    multiline = true,                                                                     -- render multi-line messages
+    multiline = false,                                                                    -- render multi-line messages
     indent_lines = false,                                                                 -- add an indent guide below the fold icons
     win_config = { border = "single" },                                                   -- window configuration for floating windows. See |nvim_open_win()|.
     auto_open = false,                                                                    -- automatically open the list when you have diagnostics
@@ -55,7 +59,8 @@ trouble.setup {
     use_diagnostic_signs = false                                                          -- enabling this will use the signs defined in your lsp client
 }
 
-vim.keymap.set('n', '<leader>dw', function() trouble.toggle("workspace_diagnostics") end,
-    { desc = "Trouble: Workspace Diagnostics" })
-vim.keymap.set('n', '<leader>dd', function() trouble.toggle("document_diagnostics") end,
-    { desc = "Trouble: Document Diagnostics" })
+map('n', '<leader>dw', function() trouble.toggle("workspace_diagnostics") end, "Workspace Diagnostics")
+map('n', '<leader>dd', function() trouble.toggle("document_diagnostics") end, "Document Diagnostics")
+map('n', 'gr', function() trouble.toggle("lsp_references") end, "Go to References")
+map('n', 'gd', function() trouble.toggle("lsp_definitions") end, "Go to Definition")
+map('n', '<leader>dt', "<cmd>TodoTrouble<cr>", "List all project todos")
