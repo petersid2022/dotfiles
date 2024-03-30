@@ -1,10 +1,8 @@
 -- Save undo history
 vim.opt.undofile = true
 
-if vim.env.SSH_TTY then
-    -- only set clipboard if in ssh
-    vim.opt.clipboard = "unnamedplus"
-end
+-- https://github.com/stevearc/conform.nvim
+vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 -- Confirm to save changes before exiting modified buffer
 vim.opt.confirm = true
@@ -16,15 +14,14 @@ vim.opt.breakindent = true
 
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.opt.ignorecase = true
-vim.opt.smartcase = true
 
 -- Precede each line with its line number.
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
 -- Preview substitutions live
@@ -48,22 +45,18 @@ vim.opt.termguicolors = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 3
 
--- vim.opt.signcolumn = "number"
 vim.opt.signcolumn = "yes"
 
 -- The minimal number of screen columns to keep to the left
-vim.wo.sidescrolloff = 40
+vim.wo.sidescrolloff = 20
 
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 
-vim.opt.updatetime = 100
-vim.opt.timeoutlen = 300
+vim.opt.updatetime = 200
+vim.opt.timeoutlen = 350
 
--- I use mini.statusline for this
-vim.opt.showmode = false
-
--- Global statusline
+-- vim.opt.showmode = true
 vim.opt.laststatus = 3
 
 vim.opt.langmap =
