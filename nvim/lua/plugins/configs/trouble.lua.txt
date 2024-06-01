@@ -1,0 +1,32 @@
+return {
+  "folke/trouble.nvim",
+  branch = "dev",
+  keys = {
+    {
+      "<leader>ls",
+      "<cmd>Trouble symbols toggle focus=true<cr>",
+      desc = "Symbols (Trouble)",
+    },
+    {
+      "ge",
+      "<cmd>Trouble lsp toggle focus=true<cr>",
+      desc = "LSP Definitions / references / ... (Trouble)",
+    },
+    {
+      "gr",
+      "<cmd>Trouble lsp_references toggle focus=true<cr>",
+      desc = "LSP Definitions / references / ... (Trouble)",
+    },
+    {
+      "<leader>wd",
+      "<cmd>Trouble diagnostics toggle focus=true<cr>",
+      desc = "Workspace Diagnostics",
+    },
+    {
+      "<leader>d",
+      "<cmd>Trouble diagnostics toggle filter.buf=0 focus=true<cr>",
+      desc = "Document Diagnostics",
+    },
+  },
+  opts = {},
+}
