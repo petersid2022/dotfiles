@@ -4,7 +4,6 @@ return {
   dependencies = {
     { "williamboman/mason.nvim", event = { "LspAttach " }, opts = {} },
     { "j-hui/fidget.nvim", event = { "LspAttach " }, opts = {} },
-    { "folke/neodev.nvim", ft = "lua", opts = {} },
     { "williamboman/mason-lspconfig.nvim", event = { "LspAttach " } },
   },
   config = function()
