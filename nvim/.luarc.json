@@ -3,6 +3,7 @@
         "missing-fields"
     ],
     "diagnostics.globals": [
-        "require"
+        "require",
+        "vim"
     ]
 }

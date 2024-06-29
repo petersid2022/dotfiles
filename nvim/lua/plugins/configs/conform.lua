@@ -13,22 +13,20 @@ return {
     },
   },
   opts = {
-    notify_on_error = false,
-    format_on_save = function(bufnr)
-      local disable_filetypes = { c = true, cpp = true }
-      return {
-        timeout_ms = 500,
-        lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-      }
-    end,
-    formatters_by_ft = {
-      lua = { "stylua" },
-      go = { { "gofumpt", "gofmt" } },
-      rust = { "rustfmt" },
-      javascript = { { "prettierd", "prettier" } },
-      python = { "black" },
-      c = { "clang-format" },
-      templ = { "templ" },
+    notify_on_error = true,
+    async = true,
+    format_on_save = {
+      timeout_ms = 2500,
+      lsp_fallback = true,
     },
+    -- formatters_by_ft = {
+    --   lua = { "stylua" },
+    --   go = { { "gofumpt", "gofmt" } },
+    --   rust = { "rustfmt" },
+    --   javascript = { { "prettierd", "prettier" } },
+    --   python = { "black" },
+    --   c = { "clang-format" },
+    --   templ = { "templ" },
+    -- },
   },
 }

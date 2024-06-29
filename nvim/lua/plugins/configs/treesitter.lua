@@ -25,7 +25,7 @@ return {
 
       ignore_install = {},
 
-      indent = { enable = true },
+      indent = { enable = false },
 
       highlight = {
         -- `false` will disable the whole extension

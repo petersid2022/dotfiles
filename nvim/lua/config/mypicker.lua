@@ -22,45 +22,45 @@ map("", "<leader><leader>", function()
     return t
   end
 
-  local files = scan_dir(vim.fn.expand "~/vaults/work/Daily")
+  local files = scan_dir(vim.fn.expand "~/ece/vaults/work/Daily")
 
   pickers
-    .new(themes.get_ivy {}, {
-      prompt_title = "Notes",
-      finder = finders.new_table {
-        results = files,
-      },
-      sorter = conf.generic_sorter(),
-      previewer = conf.file_previewer(conf),
-      layout_config = {
-        prompt_position = "top",
-        width = 0.8,
-        height = 0.6,
-        preview_cutoff = 120,
-      },
-      sorting_strategy = "ascending",
-      attach_mappings = function(prompt_bufnr, map)
-        actions.select_default:replace(function()
-          local selection = action_state.get_selected_entry()
-          actions.close(prompt_bufnr)
-          vim.cmd(string.format("edit %s", selection[1]))
-        end)
+      .new(themes.get_ivy {}, {
+        prompt_title = "Notes",
+        finder = finders.new_table {
+          results = files,
+        },
+        sorter = conf.generic_sorter(),
+        previewer = conf.file_previewer(conf),
+        layout_config = {
+          prompt_position = "top",
+          width = 0.8,
+          height = 0.6,
+          preview_cutoff = 120,
+        },
+        sorting_strategy = "ascending",
+        attach_mappings = function(prompt_bufnr, map)
+          actions.select_default:replace(function()
+            local selection = action_state.get_selected_entry()
+            actions.close(prompt_bufnr)
+            vim.cmd(string.format("edit %s", selection[1]))
+          end)
 
-        map("i", "<c-t>", function()
-          local date_str = os.date "%Y-%m-%d"
-          local new_file_path = vim.fn.expand("~/vaults/work/Daily/" .. date_str .. ".md")
-          actions.close(prompt_bufnr)
-          vim.cmd(string.format("edit %s", new_file_path))
-        end)
+          map("i", "<c-t>", function()
+            local date_str = os.date "%Y-%m-%d"
+            local new_file_path = vim.fn.expand("~/vaults/work/Daily/" .. date_str .. ".md")
+            actions.close(prompt_bufnr)
+            vim.cmd(string.format("edit %s", new_file_path))
+          end)
 
-        map("i", "<c-x>", function()
-          local selection = action_state.get_selected_entry()
-          actions.close(prompt_bufnr)
-          vim.cmd(string.format("!rm %s", selection[1]))
-        end)
+          map("i", "<c-x>", function()
+            local selection = action_state.get_selected_entry()
+            actions.close(prompt_bufnr)
+            vim.cmd(string.format("!rm %s", selection[1]))
+          end)
 
-        return true
-      end,
-    })
-    :find()
+          return true
+        end,
+      })
+      :find()
 end, nil, true)
