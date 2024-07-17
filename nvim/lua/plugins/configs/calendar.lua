@@ -1,3 +1,3 @@
 return {
-  dir = "/home/petrside/.config/nvim/calendar"
+  dir = vim.fn.stdpath "config" .. "/calendar"
 }
