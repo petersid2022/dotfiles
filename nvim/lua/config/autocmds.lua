@@ -22,6 +22,7 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup "netrw",
   pattern = "netrw",
   callback = function(event)
+    pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "<c-l>")
     pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "qb")
     pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "qf")
     pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "qF")
