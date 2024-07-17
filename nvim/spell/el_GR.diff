@@ -1,0 +1,159 @@
+*** el_GR.orig.aff	Tue Aug 16 18:02:27 2005
+--- el_GR.aff	Thu Sep 29 22:28:12 2005
+***************
+*** 820 ****
+--- 820,973 ----
+  SFX n ος         ο           .        # δρόμος > δρόμο
++ 
++ # sound folding from Aspell
++ # version 0.0 03/14/2002
++ # 03/14/2002 Evripidis Papakostas <evris@source.gr>
++ 
++ # all the following double letters are pronounced as one
++ SAL ΒΒ-                        _
++ SAL Β                          Β
++ SAL ΓΓ                         ΓΚ
++ SAL Γ                          Γ
++ SAL ΔΔ-                        _
++ SAL Δ                          Δ
++ SAL ΖΖ-                        _
++ SAL Ζ                          Ζ
++ SAL ΘΘ-                        _
++ SAL Θ                          Θ
++ SAL ΚΚ-                        _
++ SAL ΚΣ                         Ξ
++ SAL Κ                          Κ
++ SAL ΛΛ-                        _
++ SAL Λ                          Λ
++ SAL ΜΜ-                        _
++ SAL Μ                          Μ
++ SAL ΝΝ-                        _
++ SAL Ν                          Ν
++ SAL ΠΠ-                        _
++ SAL ΠΣ                         Ψ
++ SAL Π                          Π
++ SAL ΡΡ-                        _
++ SAL Ρ                          Ρ
++ SAL ΣΣ-                        _
++ SAL Σ                          Σ
++ SAL ΤΤ-                        _
++ SAL Τ                          Τ
++ SAL ΦΦ-                        _
++ SAL Φ                          Φ
++ SAL ΧΧ-                        _ 
++ SAL Χ                          Χ
++ 
++ # alpha + (ypsilon or ypsilon tonos) becomes alpha + beta
++ SAL ΑΎ<                        ΑΥ
++ SAL ΑΥΝΤ--                     ΑΒ
++ SAL ΑΥΓΚ--                     ΑΒ
++ SAL ΑΥΤΖ--                     ΑΒ
++ SAL ΑΥ(ΓΔΖΛΜΝΡ)-               ΑΒ
++ SAL ΑΥΒ                        ΑΒ
++ SAL ΑΥ(ΑΕΗΙΟΩΥΆΈΉΊΌΏΎ)-        ΑΒ
++ 
++ # alpha + (ypsilon or ypsilon tonos) becomes alpha + phi
++ SAL ΑΥΦ                        ΑΦ
++ SAL ΑΥΤΣ--                     ΑΦ
++ SAL ΑΥ(ΘΚΠΣΤΧ)-                ΑΦ
++ SAL ΑΥΞ-                       ΑΦ
++ SAL ΑΥΨ-                       ΑΦ
++ 
++ # alpha + (iota or iota tonos) becomes epsilon
++ SAL Α(ΙΊ)                      Ε
++ 
++ # alpha is alpha
++ SAL Α                          Α
++ 
++ # epsilon + (ypsilon or ypsilon tonos) becomes epsilon + vita
++ SAL ΕΎ<                        Υ
++ SAL ΕΥΝΤ--                     ΕΒ
++ SAL ΕΥΓΚ--                     ΕΒ
++ SAL ΕΥΤΖ--                     ΕΒ
++ SAL ΕΥ(ΓΔΖΛΜΝΡ)-               ΕΒ
++ SAL ΕΥΒ                        ΕΒ
++ SAL ΕΥ(ΑΕΗΙΟΩΥΆΈΉΊΌΏΎ)-        ΕΒ
++ 
++ # epsilon + (ypsilon or ypsilon tonos) becomes epsilon + phi
++ SAL ΕΥΦ                        ΕΦ
++ SAL ΕΥΤΣ--                     ΕΦ       # GUESSED!
++ SAL ΕΥ(ΘΚΠΣΤΧ)-                ΕΦ
++ SAL ΕΥΞ-                       ΕΦ
++ SAL ΕΥΨ-                       ΕΦ
++ 
++ # epsilon + (iota or iota tonos) becomes iota
++ SAL Ε(ΙΊ)                      Ι
++ 
++ # epsilon is epsilon
++ SAL Ε                          Ε
++ 
++ 
++ # omikron + (iota or iota tonos) becomes iota
++ SAL Ο(ΙΊ)                      Ι
++ 
++ # omikron + (ypsilon or ypsilon tonos) becomes u
++ SAL Ο(ΥΎ)                      ΟΥ
++ 
++ # omikron is omikron
++ SAL Ο                          Ο
++ 
++ # wmega becomes omikron
++ SAL Ω                          Ο
++ 
++ # ita becomes iota
++ SAL Η                          Ι
++ 
++ # ypsilon + iota becomes iota
++ SAL ΥΙ                         Ι
++ 
++ # ypsilon becomes iota
++ SAL Υ                          Ι
++ 
++ # iota is iota
++ SAL Ι                          Ι
++ 
++ # double ksi becomes ksi 
++ SAL ΞΞ-                         _
++ 
++ # ksi + sigma becomes ksi 
++ SAL ΞΣ                         Ξ
++ 
++ # ksi is ksi
++ SAL Ξ                          Ξ
++ 
++ # psi + psi becomes psi
++ SAL ΨΨ-                        _
++ 
++ # psi + sigma becomes psi
++ SAL ΨΣ                         Ψ
++ 
++ # psi is psi
++ SAL Ψ                          Ψ
++ 
++ 
++ # iota dialitika becomes iota 
++ SAL Ϊ                          Ι
++ 
++ # ypsilon dialitika becomes I
++ SAL Ϋ                          Ι
++ 
++ # alpha tonos becomes alpha
++ SAL Ά                          Α
++ 
++ # omikron tonos becomes omikron
++ SAL Ό                          Ο
++ 
++ # iota tonos becomes iota
++ SAL Ί                          Ι
++ 
++ # epsilon tonos becomes epsilon
++ SAL Έ                          Ε
++ 
++ # ypsilon tonos becomes ypsilon
++ SAL Ύ                          Υ
++ 
++ # wmega tonos becomes omikron
++ SAL Ώ                          Ο
++ 
++ # ita tonos becomes iota
++ SAL Ή                          Ι

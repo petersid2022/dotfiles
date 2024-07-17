@@ -3,11 +3,7 @@ return {
   event = "VeryLazy",
   branch = "0.1.x",
   dependencies = {
-    {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build =
-      "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-    },
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }
   },
   config = function()
     local telescope = require "telescope"
@@ -21,16 +17,18 @@ return {
           i = {
             ["<Tab>"] = actions.toggle_selection,
             ["<S-Tab>"] = actions.toggle_selection,
+            ["<space>t"] = actions.close,
+            ["q"] = actions.close,
+          },
+          n = {
+            ["<Tab>"] = actions.toggle_selection,
+            ["<S-Tab>"] = actions.toggle_selection,
+            ["q"] = actions.close,
           },
         },
       },
       extensions = {
-        fzf = {
-          fuzzy = true,
-          override_generic_sorter = true,
-          override_file_sorter = true,
-          case_mode = "ignore_case",
-        },
+        fzf = {},
       },
     }
 
@@ -53,25 +51,34 @@ return {
     map("n", "<leader>gs", builtin.git_status, "View Git Status")
 
     -- LSP and diagnostics
-    map("n", "gr", builtin.lsp_references, "Goto References")
+    map("n", "gr", function()
+      builtin.lsp_references { initial_mode = 'normal' }
+    end, "Goto References")
     map("n", "<leader>ls", builtin.lsp_document_symbols, "Document Symbols")
     map("n", "<leader>d", function()
-      builtin.diagnostics(themes.get_ivy { bufnr = 0 })
+      builtin.diagnostics(themes.get_ivy { bufnr = 0, initial_mode = 'normal' })
     end, "Buffer diagnostics")
     map("n", "<leader>wd", function()
-      builtin.diagnostics(themes.get_ivy { bufnr = nil })
+      builtin.diagnostics(themes.get_ivy { bufnr = nil, initial_mode = 'normal' })
     end, "Workspace diagnostics")
 
     -- Misc
-    map("n", "<leader>o", builtin.buffers, "Search open buffers")
-    map("n", "<leader>sp", builtin.spell_suggest, "Spell Suggest")
+    map("n", "<space>nv", function()
+      builtin.find_files { cwd = vim.fn.stdpath "config" }
+    end, "Edit nvim config")
+    map("n", "<leader>b", function()
+      builtin.buffers { sort_lastused = true, initial_mode = 'normal' }
+    end, "Search open buffers")
+    map("n", "<leader>sp", function()
+      builtin.spell_suggest { initial_mode = 'normal' }
+    end, "Spell Suggest")
     map("n", "<leader>k", function()
       builtin.keymaps { show_plug = false, modes = { "n" } }
     end, "Search Keymaps")
     map("n", "<leader>ht", builtin.help_tags, "Help Tags")
     map("n", "<leader>hq", builtin.quickfixhistory, "Open Quickfix history")
     map("n", "<leader>co", function()
-      builtin.colorscheme { enable_preview = true }
+      builtin.colorscheme { enable_preview = true, initial_mode = 'normal' }
     end, "Colorscheme")
   end,
 }

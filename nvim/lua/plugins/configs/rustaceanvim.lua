@@ -1,5 +1,5 @@
 return {
-  "mrcjkb/rustaceanvim",
-  ft = { "rust" },
-  version = "^4",
+  'mrcjkb/rustaceanvim',
+  ft = "rust",
+  version = '^4'
 }

@@ -19,14 +19,5 @@ return {
       timeout_ms = 2500,
       lsp_fallback = true,
     },
-    -- formatters_by_ft = {
-    --   lua = { "stylua" },
-    --   go = { { "gofumpt", "gofmt" } },
-    --   rust = { "rustfmt" },
-    --   javascript = { { "prettierd", "prettier" } },
-    --   python = { "black" },
-    --   c = { "clang-format" },
-    --   templ = { "templ" },
-    -- },
   },
 }

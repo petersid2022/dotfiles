@@ -3,7 +3,6 @@ vim.opt.undofile = true
 
 -- Confirm to save changes before exiting modified buffer
 vim.opt.confirm = true
-
 vim.opt.smoothscroll = true
 
 -- Enable break indent
@@ -15,7 +14,7 @@ vim.opt.smartcase = true
 
 -- Precede each line with its line number.
 vim.opt.nu = true
-vim.opt.relativenumber = true
+-- vim.opt.relativenumber = true
 
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
@@ -41,22 +40,22 @@ vim.opt.incsearch = true
 vim.opt.termguicolors = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 5
 
 vim.opt.signcolumn = "yes"
 
 -- The minimal number of screen columns to keep to the left
 vim.wo.sidescrolloff = 20
 
-vim.g.netrw_browse_split = 0
+vim.g.netrw_browse_split = 4
 vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 20
+-- vim.g.netrw_liststyle = 2
 
-vim.opt.updatetime = 200
-vim.opt.timeoutlen = 400
+-- vim.opt.updatetime = 200
+-- vim.opt.timeoutlen = 400
 
-vim.opt.conceallevel = 2
+-- vim.opt.cursorline = true
+-- vim.opt.cursorlineopt = "number"
 
-vim.opt.langmap =
-  "ΑA,ΒB,ΨC,ΔD,ΕE,ΦF,ΓG,ΗH,ΙI,ΞJ,ΚK,ΛL,ΜM,ΝN,ΟO,ΠP,QQ,ΡR,ΣS,ΤT,ΘU,ΩV,WW,ΧX,ΥY,ΖZ,αa,βb,ψc,δd,εe,φf,γg,ηh,ιi,ξj,κk,λl,μm,νn,οo,πp,qq,ρr,σs,τt,θu,ωv,ςw,χx,υy,ζz"
-
-vim.opt.breakindentopt = "list:-1"
+-- vim.opt.langmap = "ΑA,ΒB,ΨC,ΔD,ΕE,ΦF,ΓG,ΗH,ΙI,ΞJ,ΚK,ΛL,ΜM,ΝN,ΟO,ΠP,QQ,ΡR,ΣS,ΤT,ΘU,ΩV,WW,ΧX,ΥY,ΖZ,αa,βb,ψc,δd,εe,φf,γg,ηh,ιi,ξj,κk,λl,μm,νn,οo,πp,qq,ρr,σs,τt,θu,ωv,ςw,χx,υy,ζz"
