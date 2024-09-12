@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+wget https://tools.suckless.org/dmenu/patches/border/dmenu-border-20230512-0fe460d.diff
+wget https://tools.suckless.org/dmenu/patches/center/dmenu-center-20240616-36c3d68.diff
+
+patch -p1 < dmenu-border-20230512-0fe460d.diff
+patch -p1 < dmenu-center-20240616-36c3d68.diff
