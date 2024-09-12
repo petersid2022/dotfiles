@@ -1,9 +1,5 @@
 local M = {}
 
-function M.pumvisible()
-  return tonumber(vim.fn.pumvisible()) ~= 0
-end
-
 function M.vimgrep()
   local ok, input = pcall(vim.fn.input, 'vimgrep > ')
   local vimgrep
@@ -16,7 +12,7 @@ end
 
 function M.clear_qf()
   vim.notify("Clearing Quickfix list", nil, nil)
-  vim.cmd [[call setqflist([], 'r')]]
+  vim.cmd("call setqflist([], 'r')")
 end
 
 function M.toggle_netrw()

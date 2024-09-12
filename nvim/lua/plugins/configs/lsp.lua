@@ -1,10 +1,5 @@
 return {
   "neovim/nvim-lspconfig",
-  event = { "BufReadPost", "BufNewFile" },
-  dependencies = {
-    { "williamboman/mason.nvim",           opts = {} },
-    { "williamboman/mason-lspconfig.nvim", opts = {} },
-  },
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("custom-lsp-attach", { clear = true }),
@@ -12,6 +7,7 @@ return {
         local clients = vim.lsp.get_clients()
         for _, client in ipairs(clients) do
           vim.lsp.completion.enable(true, client.id, 0, { autotrigger = true })
+          vim.lsp.inlay_hint.enable(true)
         end
 
         vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf, remap = false })
@@ -27,21 +23,22 @@ return {
 
     local lspconfig = require "lspconfig"
 
-    lspconfig.lua_ls.setup {
-      settings = {
-        Lua = {
-          runtime = { version = 'LuaJIT' },
-          workspace = { checkThirdParty = false, library = { vim.env.VIMRUNTIME } }
-        }
-      }
-    }
-
     local servers = {
-      bashls = {
-        cmd = { "/home/petrside/.local/share/nvim/mason/bin/bash-language-server" }
+      basedpyright = true,
+      rust_analyzer = true,
+      zls = true,
+      ts_ls = true,
+      lua_ls = {
+        cmd = { "/home/petrside/.local/bin/lua_ls/bin/lua-language-server" },
+        settings = {
+          Lua = {
+            runtime = { version = 'LuaJIT' },
+            workspace = { checkThirdParty = false, library = { vim.env.VIMRUNTIME } }
+          }
+        }
       },
       gopls = {
-        cmd = { "/home/petrside/go/bin/gopls" },
+        cmd = { "gopls" },
         settings = {
           gopls = {
             analyses = { unusedparams = true, shadow = true },
@@ -59,23 +56,8 @@ return {
           }
         }
       },
-      templ = {
-        cmd = { "/home/petrside/go/bin/templ" }
-      },
-      rust_analyzer = {
-        cmd = { "/home/petrside/.local/bin/rust-analyzer" }
-      },
-      asm_lsp = {
-        cmd = { "/home/petrside/.local/share/nvim/mason/bin/asm-lsp" }
-      },
-      zls = {
-        cmd = { "zls" }
-      },
-      ts_ls = {
-        cmd = { "/home/petrside/.local/share/nvim/mason/bin/typescript-language-server", "--stdio" }
-      },
       clangd = {
-        cmd = { "/usr/bin/clangd", "--background-index", "--clang-tidy", "--log=verbose" },
+        cmd = { "clangd", "--background-index", "--clang-tidy", "--log=verbose" },
         init_options = {
           fallback_flags = { "-std=c++17" },
         }
@@ -85,10 +67,19 @@ return {
         root_dir = function()
           return vim.loop.cwd()
         end
+      },
+      asm_lsp = {
+        cmd = { "asm-lsp" },
+        root_dir = function()
+          return vim.loop.cwd()
+        end
       }
     }
 
     for name, config in pairs(servers) do
+      if config == true then
+        config = {}
+      end
       lspconfig[name].setup(config)
     end
   end

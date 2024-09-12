@@ -1,3 +1,4 @@
+vim.opt.guicursor = ""
 vim.opt.undofile = true
 vim.opt.confirm = true
 vim.opt.smoothscroll = true
@@ -27,4 +28,4 @@ vim.g.netrw_altv = 1
 vim.g.netrw_preview = 1
 vim.g.netrw_fastbrowse = 0
 vim.g.netrw_localcopycmd = 'cp -r'
-vim.opt.completeopt = "menu,menuone,noselect"
+vim.opt.completeopt = "menu,menuone,preview,noselect"

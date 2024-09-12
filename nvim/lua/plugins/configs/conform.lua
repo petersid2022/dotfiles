@@ -12,9 +12,10 @@ return {
         lsp_format = "fallback"
       },
       formatters_by_ft = {
-        markdown = { "prettierd" },
+        javascript = { "prettierd" },
         html = { "prettierd" },
-        sh = { "shfmt" }
+        yaml = { "prettierd" },
+        markdown = { "prettierd" }
       }
     }
 
