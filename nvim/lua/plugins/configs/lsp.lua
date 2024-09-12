@@ -1,85 +1,95 @@
----@diagnostic disable: undefined-field
 return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPost", "BufNewFile" },
   dependencies = {
-    { "williamboman/mason.nvim",           lazy = true, opts = {} },
-    { "j-hui/fidget.nvim",                 lazy = true, opts = {} },
-    { "williamboman/mason-lspconfig.nvim", lazy = true, opts = {} },
+    { "williamboman/mason.nvim",           opts = {} },
+    { "williamboman/mason-lspconfig.nvim", opts = {} },
   },
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("custom-lsp-attach", { clear = true }),
       callback = function(event)
-        vim.lsp.inlay_hint.enable(true, { event.buf })
-        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-        vim.diagnostic.config { float = { border = "rounded" } }
-        vim.api.nvim_set_hl(0, "NormalFloat", { guibg = nil })
-        vim.keymap.set("n", "K", vim.lsp.buf.hover,
-          { buffer = event.buf, desc = "LSP: Open the Information Floating window", remap = false })
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition,
-          { buffer = event.buf, desc = "LSP: Jump to definition", remap = false })
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration,
-          { buffer = event.buf, desc = "LSP: Jump to declaration", remap = false })
-        vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action,
-          { buffer = event.buf, desc = "LSP: Request Code Action", remap = false })
-        vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename,
-          { buffer = event.buf, desc = "LSP: Rename all references to the symbol under the cursor", remap = false })
-        vim.keymap.set("n", "I", vim.diagnostic.open_float,
-          { buffer = event.buf, desc = "LSP: Open the Diagnostic Floating window", remap = false })
-      end,
-    })
+        local clients = vim.lsp.get_clients()
+        for _, client in ipairs(clients) do
+          vim.lsp.completion.enable(true, client.id, 0, { autotrigger = true })
+        end
 
-    local lsp_capabilities = vim.tbl_deep_extend(
-      "force",
-      vim.lsp.protocol.make_client_capabilities(),
-      require("cmp_nvim_lsp").default_capabilities()
-    )
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf, remap = false })
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = event.buf, remap = false })
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = event.buf, remap = false })
+        vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, { buffer = event.buf, remap = false })
+        vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = event.buf, remap = false })
+        vim.keymap.set("n", "I", vim.diagnostic.open_float, { buffer = event.buf, remap = false })
+        vim.keymap.set("n", "<leader>d", vim.diagnostic.setloclist, { buffer = event.buf, remap = false })
+        vim.keymap.set("n", "<leader>wd", vim.diagnostic.setqflist, { buffer = event.buf, remap = false })
+      end
+    })
 
     local lspconfig = require "lspconfig"
 
-    local default_setup = function(server)
-      lspconfig[server].setup {
-        capabilities = lsp_capabilities,
-      }
-    end
-
-    require("mason-lspconfig").setup { handlers = { default_setup } }
-
-    lspconfig.gopls.setup {
-      cmd = { "gopls" },
+    lspconfig.lua_ls.setup {
       settings = {
-        gopls = {
-          analyses = { unusedparams = true, shadow = true },
-          staticcheck = true,
-          gofumpt = true,
-          experimentalPostfixCompletions = true,
-          verboseOutput = true,
-          ["ui.inlayhint.hints"] = {
-            compositeLiteralFields = true,
-            compositeLiteralTypes = true,
-            constantValues = true,
-            parameterNames = true,
-            rangeVariableTypes = true,
-          }
+        Lua = {
+          runtime = { version = 'LuaJIT' },
+          workspace = { checkThirdParty = false, library = { vim.env.VIMRUNTIME } }
         }
       }
     }
 
-    lspconfig.verible.setup {
-      cmd = { "verible-verilog-ls" },
-      root_dir = function()
-        return vim.loop.cwd()
-      end,
+    local servers = {
+      bashls = {
+        cmd = { "/home/petrside/.local/share/nvim/mason/bin/bash-language-server" }
+      },
+      gopls = {
+        cmd = { "/home/petrside/go/bin/gopls" },
+        settings = {
+          gopls = {
+            analyses = { unusedparams = true, shadow = true },
+            staticcheck = true,
+            gofumpt = true,
+            experimentalPostfixCompletions = true,
+            verboseOutput = true,
+            ["ui.inlayhint.hints"] = {
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            }
+          }
+        }
+      },
+      templ = {
+        cmd = { "/home/petrside/go/bin/templ" }
+      },
+      rust_analyzer = {
+        cmd = { "/home/petrside/.local/bin/rust-analyzer" }
+      },
+      asm_lsp = {
+        cmd = { "/home/petrside/.local/share/nvim/mason/bin/asm-lsp" }
+      },
+      zls = {
+        cmd = { "zls" }
+      },
+      ts_ls = {
+        cmd = { "/home/petrside/.local/share/nvim/mason/bin/typescript-language-server", "--stdio" }
+      },
+      clangd = {
+        cmd = { "/usr/bin/clangd", "--background-index", "--clang-tidy", "--log=verbose" },
+        init_options = {
+          fallback_flags = { "-std=c++17" },
+        }
+      },
+      verible = {
+        cmd = { "verible-verilog-ls" },
+        root_dir = function()
+          return vim.loop.cwd()
+        end
+      }
     }
 
-    lspconfig.verible.setup {
-      cmd = { "verible-verilog-ls" },
-      root_dir = function()
-        return vim.loop.cwd()
-      end,
-    }
-
-    lspconfig.zls.setup { cmd = { "zls" } }
+    for name, config in pairs(servers) do
+      lspconfig[name].setup(config)
+    end
   end
 }

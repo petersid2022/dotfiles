@@ -1,11 +1,14 @@
 {
     "diagnostics.disable": [
-        "missing-fields"
+        "missing-fields",
+        "undefined-field",
+        "param-type-mismatch"
     ],
     "diagnostics.globals": [
         "require",
         "fs_stat",
         "vim",
-        "pcall"
+        "pcall",
+        "ipairs"
     ]
 }
