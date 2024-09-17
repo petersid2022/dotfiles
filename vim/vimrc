@@ -1,0 +1,10 @@
+set nu
+set rnu
+set wrap
+set clipboard=unnamedplus
+filetype plugin on
+filetype indent on
+set mouse=a
+syntax on
+colorscheme desert
+set nocompatible
