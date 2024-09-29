@@ -1,6 +1,5 @@
 return {
   "stevearc/conform.nvim",
-  event = { "BufReadPost", "BufNewFile" },
   config = function()
     local conform = require "conform"
 
@@ -8,8 +7,8 @@ return {
       notify_on_error = true,
       async = true,
       format_on_save = {
+        lsp_format = "fallback",
         timeout_ms = 500,
-        lsp_format = "fallback"
       },
       formatters_by_ft = {
         javascript = { "prettierd" },

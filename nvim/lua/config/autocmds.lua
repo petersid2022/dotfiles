@@ -1,3 +1,5 @@
+local utils = require "config.utils"
+
 local set = vim.opt_local
 
 local function augroup(name)
@@ -25,43 +27,22 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup "netrw",
   pattern = "netrw",
   callback = function(event)
-    pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "<c-l>")
-    pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "v")
-    pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "t")
-    pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "h")
-    pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "qb")
-    pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "qf")
-    pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "qF")
-    pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "qL")
-    pcall(vim.api.nvim_buf_del_keymap, event.buf, "n", "%")
-
-    vim.api.nvim_command('setlocal buftype=nofile')
-    vim.api.nvim_command('setlocal bufhidden=wipe')
-
-    vim.keymap.set("n", "%", function()
-      local netrw_cwd = vim.fn.getcwd()
-      local ok, new_file_name = pcall(vim.fn.input, 'New File: ', netrw_cwd .. '/', 'file')
-      if ok and new_file_name ~= '' then
-        local netrw_win = vim.api.nvim_get_current_win()
-        local edit_file = 'edit ' .. new_file_name
-        pcall(vim.cmd, 'wincmd p')
-        pcall(vim.cmd, edit_file)
-        pcall(vim.api.nvim_set_current_win, netrw_win)
-        pcall(vim.cmd, 'wincmd w')
+    local function safe_del_keymaps(buf, mode, keymaps)
+      for _, key in ipairs(keymaps) do
+        pcall(vim.api.nvim_buf_del_keymap, buf, mode, key)
       end
-    end, { buffer = event.buf, silent = true })
+    end
 
-    vim.keymap.set("n", "q", function()
-      vim.api.nvim_buf_delete(event.buf, { force = true })
-    end, { buffer = event.buf, silent = true })
+    local keymaps_to_remove = { "<c-l>", "v", "t", "h", "o", "qb", "qf", "qF", "qL", "%" }
+    safe_del_keymaps(event.buf, "n", keymaps_to_remove)
 
-    vim.keymap.set("n", "<c-t>", function()
-      local filename = vim.fn.expand("<cfile>")
-      local dir = vim.fn.getcwd()
-      if filename ~= "" then
-        vim.cmd("tabedit " .. dir .. "/" .. filename)
-      end
-    end, { buffer = event.buf, silent = true })
+    set.nu = true
+    set.bufhidden = "hide"
+    set.buftype = "nofile"
+
+    vim.keymap.set("n", "%", utils.netrw_create_file, { buffer = event.buf, silent = true })
+    vim.keymap.set("n", "<c-t>", utils.netrw_open_in_new_tab, { buffer = event.buf, silent = true })
+    vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, remap = true, silent = true })
   end
 })
 
@@ -72,8 +53,6 @@ vim.api.nvim_create_autocmd("FileType", {
     "help",
     "lspinfo",
     "man",
-    "notify",
-    "startuptime",
     "undotree",
     "checkhealth"
   },

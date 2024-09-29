@@ -1,18 +1,24 @@
 local M = {}
 
-function M.vimgrep()
-  local ok, input = pcall(vim.fn.input, 'vimgrep > ')
-  local vimgrep
-  if ok then
-    vimgrep = 'vimgrep /' .. input .. '/%'
-    pcall(vim.cmd, vimgrep)
-    vim.cmd("copen")
+function M.netrw_open_in_new_tab()
+  local filename = vim.fn.expand("<cfile>")
+  local dir = vim.fn.getcwd()
+  if filename ~= "" then
+    vim.cmd("tabedit " .. dir .. "/" .. filename)
   end
 end
 
-function M.clear_qf()
-  vim.notify("Clearing Quickfix list", nil, nil)
-  vim.cmd("call setqflist([], 'r')")
+function M.netrw_create_file()
+  local netrw_cwd = vim.fn.getcwd()
+  local ok, new_file_name = pcall(vim.fn.input, 'New File: ', netrw_cwd .. '/', 'file')
+  if ok and new_file_name ~= '' then
+    local netrw_win = vim.api.nvim_get_current_win()
+    local edit_file = 'edit ' .. new_file_name
+    pcall(vim.cmd, 'wincmd p')
+    pcall(vim.cmd, edit_file)
+    pcall(vim.api.nvim_set_current_win, netrw_win)
+    pcall(vim.cmd, 'wincmd w')
+  end
 end
 
 function M.toggle_netrw()
@@ -33,6 +39,11 @@ function M.toggle_netrw()
 end
 
 function M.toggle_language()
+  local mode = vim.api.nvim_get_mode()
+  if mode.mode == "i" then
+    vim.keymap.set("i", "<c-s>", "<c-^>")
+  end
+
   local current_spelllang = vim.opt.spelllang:get()[1]
   if current_spelllang == "el" then
     vim.opt.spelllang = "en"
@@ -41,7 +52,14 @@ function M.toggle_language()
     vim.opt.spelllang = "el"
     vim.opt.keymap = "greek_utf-8"
   end
-  vim.notify("Language set to " .. vim.opt.spelllang:get()[1], nil, nil)
+end
+
+function M.clear_qf()
+  local qf_list = vim.fn.getqflist()
+  if #qf_list == 0 then
+    return
+  end
+  vim.cmd("call setqflist([], 'r')")
 end
 
 function M.toggle_quickfix()
@@ -96,41 +114,6 @@ function M.list_prev()
     else
       pcall(vim.cmd, 'cprev')
     end
-  end
-end
-
-function M.toggle_file_qf()
-  local current_file = vim.api.nvim_buf_get_name(0)
-  local config_path = vim.fn.stdpath "config"
-  local relative_path = current_file:gsub(config_path, ""):sub(2)
-  local qflist = vim.fn.getqflist()
-
-  local exists = false
-  for _, item in ipairs(qflist) do
-    if item.text == relative_path then
-      exists = true
-      break
-    end
-  end
-
-  if exists then
-    local new_qflist = {}
-    for _, item in ipairs(qflist) do
-      if item.text ~= relative_path then
-        table.insert(new_qflist, item)
-      end
-    end
-    vim.fn.setqflist(new_qflist, 'r')
-    print("Removed current file from quickfix list")
-  else
-    local item = {
-      bufnr = vim.api.nvim_get_current_buf(),
-      lnum = vim.fn.line('.'),
-      col = vim.fn.col('.'),
-      text = relative_path
-    }
-    vim.fn.setqflist({ item }, 'a')
-    print("Added current file to quickfix list")
   end
 end
 

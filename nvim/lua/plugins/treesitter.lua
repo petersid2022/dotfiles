@@ -1,15 +1,18 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  event = { "BufReadPost", "BufNewFile" },
   build = ":TSUpdate",
   config = function()
     local treesitter = require("nvim-treesitter.configs")
     local enabled = {
+      "c",
       "markdown",
       "markdown_inline",
       "vimdoc",
       "javascript",
-      "c",
+      "cpp",
+      "verilog",
+      "php",
+      "zig",
       "python",
       "lua",
       "rust",
@@ -30,7 +33,7 @@ return {
       auto_install = true,
       ignore_install = {},
       indent = {
-        enable = true
+        enable = false
       },
       highlight = {
         enable = true,

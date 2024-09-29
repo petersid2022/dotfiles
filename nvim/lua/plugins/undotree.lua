@@ -4,10 +4,10 @@ return {
     {
       "<leader>u",
       function()
-        vim.cmd("UndotreeToggle")
+        vim.cmd.UndotreeToggle()
         vim.cmd("wincmd w")
       end,
-      desc = "Undotree: Toggle window"
-    }
-  }
+      desc = "Undotree"
+    },
+  },
 }

@@ -15,6 +15,7 @@ return {
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = event.buf, remap = false })
         vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, { buffer = event.buf, remap = false })
         vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { buffer = event.buf, remap = false })
+        vim.keymap.set("n", "<leader>ll", vim.lsp.buf.references, { buffer = event.buf, remap = false })
         vim.keymap.set("n", "I", vim.diagnostic.open_float, { buffer = event.buf, remap = false })
         vim.keymap.set("n", "<leader>d", vim.diagnostic.setloclist, { buffer = event.buf, remap = false })
         vim.keymap.set("n", "<leader>wd", vim.diagnostic.setqflist, { buffer = event.buf, remap = false })
@@ -24,42 +25,12 @@ return {
     local lspconfig = require "lspconfig"
 
     local servers = {
-      basedpyright = true,
-      rust_analyzer = true,
-      zls = true,
-      ts_ls = true,
       lua_ls = {
-        cmd = { "/home/petrside/.local/bin/lua_ls/bin/lua-language-server" },
         settings = {
           Lua = {
             runtime = { version = 'LuaJIT' },
             workspace = { checkThirdParty = false, library = { vim.env.VIMRUNTIME } }
           }
-        }
-      },
-      gopls = {
-        cmd = { "gopls" },
-        settings = {
-          gopls = {
-            analyses = { unusedparams = true, shadow = true },
-            staticcheck = true,
-            gofumpt = true,
-            experimentalPostfixCompletions = true,
-            verboseOutput = true,
-            ["ui.inlayhint.hints"] = {
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            }
-          }
-        }
-      },
-      clangd = {
-        cmd = { "clangd", "--background-index", "--clang-tidy", "--log=verbose" },
-        init_options = {
-          fallback_flags = { "-std=c++17" },
         }
       },
       verible = {
@@ -73,7 +44,13 @@ return {
         root_dir = function()
           return vim.loop.cwd()
         end
-      }
+      },
+      zls = true,
+      gopls = true,
+      ts_ls = true,
+      clangd = true,
+      basedpyright = true,
+      rust_analyzer = true,
     }
 
     for name, config in pairs(servers) do
