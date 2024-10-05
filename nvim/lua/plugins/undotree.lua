@@ -7,7 +7,7 @@ return {
         vim.cmd.UndotreeToggle()
         vim.cmd("wincmd w")
       end,
-      desc = "Undotree"
-    },
-  },
+      desc = "Toggle Undotree"
+    }
+  }
 }

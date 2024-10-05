@@ -19,6 +19,9 @@ return {
         vim.keymap.set("n", "I", vim.diagnostic.open_float, { buffer = event.buf, remap = false })
         vim.keymap.set("n", "<leader>d", vim.diagnostic.setloclist, { buffer = event.buf, remap = false })
         vim.keymap.set("n", "<leader>wd", vim.diagnostic.setqflist, { buffer = event.buf, remap = false })
+        vim.keymap.set("n", "<leader>fb", function()
+          vim.lsp.buf.format { async = true }
+        end, { buffer = event.buf, remap = false })
       end
     })
 
@@ -32,18 +35,6 @@ return {
             workspace = { checkThirdParty = false, library = { vim.env.VIMRUNTIME } }
           }
         }
-      },
-      verible = {
-        cmd = { "verible-verilog-ls" },
-        root_dir = function()
-          return vim.loop.cwd()
-        end
-      },
-      asm_lsp = {
-        cmd = { "asm-lsp" },
-        root_dir = function()
-          return vim.loop.cwd()
-        end
       },
       zls = true,
       gopls = true,
