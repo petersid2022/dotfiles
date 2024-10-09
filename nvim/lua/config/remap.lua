@@ -1,6 +1,6 @@
 local utils = require "config.utils"
 
-vim.keymap.set("n", "<C-Tab>", "<c-6>")
+vim.keymap.set("s", "<BS>", "<C-o>s")
 vim.keymap.set("n", "<C-x>", "<C-W>5>")
 vim.keymap.set("n", "<C-z>", "<C-W>5<")
 vim.keymap.set({ "n", "v" }, "x", '"_x')
@@ -19,6 +19,9 @@ vim.keymap.set("n", "|", "<cmd>tabprevious<cr>")
 vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zzzv")
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zzzv")
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set("s", "<Tab>",[[:vim.snippet.jump(1)]])
+vim.keymap.set("s", "<S-Tab>", [[:vim.snippet.jump(-1)]])
 vim.keymap.set({ "n", "i" }, "<M-s>", utils.toggle_language)
+vim.keymap.set("n", "<leader>md", "<cmd>%!prettier --parser markdown<cr>")
 vim.keymap.set("n", "<leader>`", "<cmd>sp<bar>term<cr><c-w>J<cmd>resize10<cr>i")
 vim.keymap.set("n", "<leader>re", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gIc<Left><Left><Left><Left>]])

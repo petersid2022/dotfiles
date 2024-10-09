@@ -7,7 +7,9 @@ return {
         local clients = vim.lsp.get_clients()
         for _, client in ipairs(clients) do
           vim.lsp.completion.enable(true, client.id, 0, { autotrigger = true })
-          vim.lsp.inlay_hint.enable(true)
+          vim.keymap.set("n", "<leader>hh", function()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+          end)
         end
 
         vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf, remap = false })
@@ -42,6 +44,7 @@ return {
       clangd = true,
       basedpyright = true,
       rust_analyzer = true,
+      markdown_oxide = true,
     }
 
     for name, config in pairs(servers) do
