@@ -1,3 +1,3 @@
 # dotfiles
 All of my dotfiles.
-Neovim + i3wm
+vim + Neovim + tmux + tiling window manager (i3wm or dwm)
