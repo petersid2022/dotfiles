@@ -1,10 +1,12 @@
-set nu
-set rnu
-set wrap
-set clipboard=unnamedplus
+filetype on
 filetype plugin on
 filetype indent on
-set mouse=a
-syntax on
-colorscheme desert
-set nocompatible
+set clipboard=unnamedplus
+
+set nu
+set rnu
+runtime! ftplugin/man.vim
+nnoremap <space>pv <cmd>Ex<cr>
+tnoremap <esc> <c-\><c-n>
+inoremap <C-b> <C-x><C-n>
+inoremap <C-f> <C-x><C-f>
