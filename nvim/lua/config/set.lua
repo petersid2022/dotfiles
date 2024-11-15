@@ -1,9 +1,9 @@
 vim.opt.mouse = "a"
-vim.opt.tabstop = 2
 vim.opt.wrap = true
 vim.opt.number = true
-vim.opt.confirm = true
-vim.g.netrw_banner = 0
+vim.opt.relativenumber = true
+-- vim.g.netrw_banner = 0
+vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
 vim.opt.undofile = true

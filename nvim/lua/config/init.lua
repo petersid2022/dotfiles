@@ -4,8 +4,6 @@ require "config.set"
 require "config.utils"
 require "config.remap"
 
-vim.cmd("colorscheme retrobox")
-
 vim.api.nvim_create_user_command("Scratchpad", function()
   vim.cmd("tabedit")
   vim.cmd("setlocal buftype=nofile")
