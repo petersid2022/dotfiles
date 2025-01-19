@@ -39,6 +39,7 @@ return {
         }
       },
       zls = true,
+      html = true,
       gopls = true,
       ts_ls = true,
       clangd = true,

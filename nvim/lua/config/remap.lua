@@ -20,7 +20,7 @@ vim.keymap.set("n", "<C-z>", "<C-W>5<")
 vim.keymap.set("n", "\\", "<cmd>tabnext<cr>")
 vim.keymap.set("n", "|", "<cmd>tabprevious<cr>")
 
--- Misc
+-- Miscellaneous
 vim.keymap.set({ "n", "v" }, "x", '"_x')
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("t", "<esc>", "<c-\\><c-n>")
@@ -29,6 +29,7 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<cr>")
 vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zzzv")
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zzzv")
+vim.keymap.set("n", "<leader>fi", "<cmd>!file %/<cWORD><cr>")
 vim.keymap.set({ "n", "i" }, "<M-s>", utils.toggle_language)
 vim.keymap.set("n", "<leader>md", "<cmd>%!prettier --parser markdown<cr>")
 vim.keymap.set("n", "<leader>`", "<cmd>sp<bar>term<cr><c-w>J<cmd>resize10<cr>i")
