@@ -1,6 +1,6 @@
 require "config.lazy"
 require "config.autocmds"
-require "config.set"
+require "config.options"
 require "config.utils"
 require "config.remap"
 
@@ -12,3 +12,7 @@ vim.api.nvim_create_user_command("Scratchpad", function()
 end, {})
 
 vim.cmd([[colorscheme retrobox]])
+
+vim.lsp.enable('gopls')
+vim.lsp.enable('lua_ls')
+vim.lsp.enable('ts_ls')
