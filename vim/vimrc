@@ -1,12 +1,39 @@
-filetype on
-filetype plugin on
-filetype indent on
+" set nu
+" set rnu
+set nowrap
+set mouse=
+set ignorecase
 set clipboard=unnamedplus
 
-set nu
-set rnu
-runtime! ftplugin/man.vim
-nnoremap <space>pv <cmd>Ex<cr>
-tnoremap <esc> <c-\><c-n>
+" colorscheme retrobox
+
+syntax on
+filetype plugin on
+
+au FileType netrw nmap <buffer> <space>fi :!file %:p:h/<cWORD><cr>
+
+nnoremap Y vg_y
 inoremap <C-b> <C-x><C-n>
 inoremap <C-f> <C-x><C-f>
+nnoremap <space>fs :Rg<cr>
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+nnoremap <space>/ :Lines<cr>
+nnoremap <space>e <cmd>Ex<cr>
+nnoremap <space>ff :Files<cr>
+nnoremap <C-p> <cmd>cnext<cr>
+nnoremap <C-n> <cmd>cprev<cr>
+nnoremap <space>co :Colors<cr>
+nnoremap <space>gs :GFiles?<cr>
+nnoremap <space>ht :Helptags<cr>
+nnoremap <space>u :UndotreeToggle<cr>
+nnoremap <space>fb <cmd>silent !format-clang<cr>:redraw!<cr>
+nnoremap <space>re :%s/\<<C-r><C-w>\>/<C-r><C-w>/gIc<Left><Left><Left><Left>
+
+runtime! ftplugin/man.vim
+call plug#begin()
+Plug 'tpope/vim-sensible'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'mbbill/undotree'
+call plug#end()
